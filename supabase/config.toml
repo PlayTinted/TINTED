@@ -1,0 +1,15 @@
+# Edge function settings. Webhook-driven functions check WEBHOOK_SECRET instead of a user token.
+[functions.finish-duel]
+verify_jwt = true
+
+[functions.delete-account]
+verify_jwt = true
+
+[functions.notify]
+verify_jwt = false
+
+[functions.moderate-photo]
+verify_jwt = false
+
+[functions.revenuecat-webhook]
+verify_jwt = false

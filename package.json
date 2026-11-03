@@ -1,0 +1,35 @@
+{
+  "name": "pop-the-question",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Live bubble-shooter duels between people who matched. Android app (Capacitor) + Supabase backend.",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node tests/engine.test.mjs",
+    "android:sync": "npm run build && npx cap sync android",
+    "android:open": "npx cap open android",
+    "assets": "capacitor-assets generate --android --iconBackgroundColor '#160b26' --splashBackgroundColor '#160b26' --splashBackgroundColorDark '#160b26'"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.0.0",
+    "@capacitor/app": "^8.0.0",
+    "@capacitor/core": "^8.0.0",
+    "@capacitor/haptics": "^8.0.0",
+    "@capacitor/push-notifications": "^8.0.0",
+    "@revenuecat/purchases-capacitor": "^13.0.0",
+    "@supabase/supabase-js": "^2.45.0",
+    "@capacitor/splash-screen": "^8.0.0",
+    "@capacitor/browser": "^8.0.0",
+    "@fontsource-variable/geist": "^5.0.0",
+    "@fontsource/gloock": "^5.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.0.0",
+    "esbuild": "^0.24.0",
+    "@capacitor/assets": "^3.0.5"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

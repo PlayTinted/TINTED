@@ -1,0 +1,10 @@
+node_modules/
+www/
+android/app/google-services.json
+*.jks
+*.keystore
+.env
+supabase/functions/finish-duel/engine.js
+supabase/.temp/
+web-dist/
+google-services.json

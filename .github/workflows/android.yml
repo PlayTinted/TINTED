@@ -1,0 +1,82 @@
+# Builds a signed Android App Bundle (.aab) ready to upload to Google Play.
+# Runs on every push to main, or by hand from the Actions tab.
+# Secrets needed (Settings → Secrets and variables → Actions):
+#   LEGAL_BASE_URL, REVENUECAT_ANDROID_KEY (public Google Play SDK key, starts goog_)
+#   (SUPABASE_URL / SUPABASE_ANON_KEY are optional: the live project is built in by default)
+#   GOOGLE_SERVICES_JSON_B64   base64 of Firebase's google-services.json
+#   ANDROID_KEYSTORE_B64       base64 of your upload keystore (.jks)
+#   ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS, ANDROID_KEY_PASSWORD
+name: Android build
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Install
+        run: npm install
+
+      - name: Test game engine
+        run: npm test
+
+      - name: Build web app
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          LEGAL_BASE_URL: ${{ secrets.LEGAL_BASE_URL }}
+          REVENUECAT_ANDROID_KEY: ${{ secrets.REVENUECAT_ANDROID_KEY }}
+        run: npm run build
+
+      - name: Create or sync Android project
+        run: |
+          if [ ! -d android ]; then npx cap add android; fi
+          npm run assets
+          node scripts/android-deeplink.mjs
+          npx cap sync android
+
+      - name: Add Firebase config (optional, for push notifications)
+        env:
+          GSJ: ${{ secrets.GOOGLE_SERVICES_JSON_B64 }}
+        if: ${{ env.GSJ != '' }}
+        run: echo "$GSJ" | base64 -d > android/app/google-services.json
+
+      - name: Set version from build number
+        run: |
+          sed -i -E "s/versionCode [0-9]+/versionCode ${{ github.run_number }}/" android/app/build.gradle
+          sed -i -E "s/versionName \"[^\"]+\"/versionName \"1.0.${{ github.run_number }}\"/" android/app/build.gradle
+
+      - name: Build release bundle
+        working-directory: android
+        run: ./gradlew bundleRelease --no-daemon
+
+      - name: Sign bundle
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_B64 }}" | base64 -d > upload.jks
+          jarsigner -sigalg SHA256withRSA -digestalg SHA-256 \
+            -keystore upload.jks -storepass "${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" \
+            -keypass "${{ secrets.ANDROID_KEY_PASSWORD }}" \
+            android/app/build/outputs/bundle/release/app-release.aab "${{ secrets.ANDROID_KEY_ALIAS }}"
+          rm upload.jks
+          mv android/app/build/outputs/bundle/release/app-release.aab pop-the-question-${{ github.run_number }}.aab
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pop-the-question-aab-${{ github.run_number }}
+          path: pop-the-question-${{ github.run_number }}.aab
