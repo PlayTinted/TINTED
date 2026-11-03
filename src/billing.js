@@ -8,7 +8,7 @@ import { me, rpc } from "./supa.js";
 /* global __REVENUECAT_KEY__ */
 const KEY = __REVENUECAT_KEY__;
 const ENTITLEMENT = "plus";
-const PLAY_SUBSCRIPTIONS = "https://play.google.com/store/account/subscriptions?package=com.edenos.tinted";
+const PLAY_SUBSCRIPTIONS = "https://play.google.com/store/account/subscriptions?package=com.playtinted.app";
 
 // The investor demo swaps in a pretend store (window.__demoBilling).
 const store = () => globalThis.__demoBilling || Purchases;

@@ -29,7 +29,7 @@ You do these once. Each needs your own account, so they can't be automated.
 ### 1. GitHub
 1. Create a **private** repo called `pop-the-question` and push this folder to it.
 2. Settings → Pages → Source: **GitHub Actions**.
-3. Settings → Secrets and variables → Actions → **Variables**: add `COMPANY_NAME` (e.g. `Eden OS and Refinery Ltd`) and `SUPPORT_EMAIL`.
+3. Settings → Secrets and variables → Actions → **Variables**: add `COMPANY_NAME` (e.g. `Tinted`) and `SUPPORT_EMAIL`.
 4. Run **Publish legal pages** from the Actions tab. Your pages will be at `https://<your-github-name>.github.io/pop-the-question/`. That address is your `LEGAL_BASE_URL`.
 
 ### 2. Supabase
@@ -53,11 +53,11 @@ You do these once. Each needs your own account, so they can't be automated.
 Without Sightengine keys, new photos stay **pending**. Approve them in Table Editor → `photos` by setting `status` to `approved`. Review `reports` there too.
 
 ### 3. Firebase (push notifications)
-1. Create a Firebase project, add an **Android app** with package name `com.edenos.tinted`.
+1. Create a Firebase project, add an **Android app** with package name `com.playtinted.app`.
 2. Download `google-services.json`, base64 it (`base64 -w0 google-services.json`), and save it as the GitHub secret `GOOGLE_SERVICES_JSON_B64`.
 3. Project settings → Service accounts → **Generate new private key**. Paste the whole JSON as the Supabase function secret `FIREBASE_SERVICE_ACCOUNT`.
 
-The package name `com.edenos.tinted` is permanent once the app is on Google Play. Change it in `capacitor.config.json` and Firebase now if you want a different one.
+The package name `com.playtinted.app` is permanent once the app is on Google Play. Change it in `capacitor.config.json` and Firebase now if you want a different one.
 
 ### 4. Signing key
 Run this once on your own computer (it needs Java) and keep the file and passwords somewhere safe. If you lose it you need Google support to reset it.
@@ -84,7 +84,7 @@ Plus = 3 matches at once (free accounts get 1) and first in line when pairing. G
 1. **Play Console → Settings → Payments profile.** Set up a payments profile so you can sell. Google pays out monthly.
 2. **Upload a build first.** Play Console only allows subscription products once a build containing the billing library has been uploaded (any testing track is fine).
 3. **Monetise → Products → Subscriptions.** Create a subscription with product ID `plus`, then two base plans: `monthly` (renews every month) and `yearly` (renews every year). Set prices; the demo shows £9.99 and £59.99 as examples. Activate both.
-4. **RevenueCat** (free until you pass their revenue threshold): create a project, add an Android app with package `com.edenos.tinted`, and connect your Google Play service account by following RevenueCat's Google Play setup guide.
+4. **RevenueCat** (free until you pass their revenue threshold): create a project, add an Android app with package `com.playtinted.app`, and connect your Google Play service account by following RevenueCat's Google Play setup guide.
    - Products: import `plus:monthly` and `plus:yearly`.
    - Entitlements: create one called `plus` and attach both products.
    - Offerings: make the `default` offering current, with a Monthly package and an Annual package.

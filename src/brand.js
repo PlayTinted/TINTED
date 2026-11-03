@@ -4,7 +4,7 @@ export const LOGO = new URL("./brand/logo.webp", import.meta.url).href;
 export const LOGO_SMALL = new URL("./brand/logo-256.webp", import.meta.url).href;
 export const WELCOME_PHOTO = new URL("./brand/welcome.jpg", import.meta.url).href;
 export const NAME = "Tinted";
-// Paste the Play Store link here once the Android app is live (e.g. "https://play.google.com/store/apps/details?id=com.edenos.tinted").
+// Paste the Play Store link here once the Android app is live (e.g. "https://play.google.com/store/apps/details?id=com.playtinted.app").
 // While it's empty, no store badge is shown anywhere.
 export const PLAY_STORE_URL = "";
 export const TAGLINE = "Play first. <em>See later.</em>";

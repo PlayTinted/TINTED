@@ -1,12 +1,12 @@
 // "Continue with Google". On the web the page goes to Google and comes back with ?code=.
 // In the Android app Google opens in a browser tab and returns through the app link
-// com.edenos.tinted://auth-callback (allow-listed in Supabase → Auth → URL Configuration).
+// com.playtinted.app://auth-callback (allow-listed in Supabase → Auth → URL Configuration).
 import { Capacitor } from "@capacitor/core";
 import { App } from "@capacitor/app";
 import { Browser } from "@capacitor/browser";
 import { sb } from "./supa.js";
 
-export const APP_CALLBACK = "com.edenos.tinted://auth-callback";
+export const APP_CALLBACK = "com.playtinted.app://auth-callback";
 const native = () => Capacitor.isNativePlatform();
 
 export async function signInWithGoogle() {
