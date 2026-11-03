@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#160b26">
+<title>Tinted · Looks can wait.</title>
+<meta name="description" content="Tinted is a dating app where you play before you see. Get matched, play a 90-second bubble duel, and every heart you free reveals something real and clears their photo.">
+<link rel="canonical" href="https://playtinted.com/">
+<meta property="og:title" content="Tinted · Looks can wait.">
+<meta property="og:description" content="The dating app where you play first and see later.">
+<meta property="og:image" content="https://playtinted.com/assets/og.jpg">
+<meta property="og:url" content="https://playtinted.com/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/logo.webp">
+<link rel="apple-touch-icon" href="/src/brand/icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&family=Gloock&display=swap">
+<script>
+  // Already signed in on this device? Go straight to the app (add ?home to stay here).
+  try {
+    if (!/[?&]home\b/.test(location.search) && Object.keys(localStorage).some((k) => k.startsWith("sb-") && k.endsWith("-auth-token"))) location.replace("/app/");
+  } catch (e) {}
+</script>
+<style>
+:root{--night:#160b26;--deep:#0d0618;--velvet:#22123a;--ivory:#fff2f8;--mist:#c6abd8;--rose:#ff4fa3;--rose2:#e2338f;--gold:#ffc857;
+  --serif:"Gloock",Georgia,serif;--sans:"Geist",system-ui,-apple-system,"Segoe UI",sans-serif;--ease:cubic-bezier(.2,.8,.2,1)}
+*{box-sizing:border-box}
+html{background:var(--night);scroll-behavior:smooth;overflow-x:clip}
+body{margin:0;color:var(--ivory);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  background:radial-gradient(60% 50% at 85% 0%,rgba(255,79,163,.22),transparent 70%),radial-gradient(50% 40% at 0% 20%,rgba(79,147,255,.12),transparent 70%),var(--night)}
+a{color:inherit}
+img,video{display:block;max-width:100%}
+.wrap{width:min(1160px,100% - 40px);margin:0 auto}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.06;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* Nav */
+nav{position:sticky;top:0;z-index:40;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:rgba(22,11,38,.55);border-bottom:1px solid rgba(255,255,255,.06)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;letter-spacing:-.03em;font-size:21px}
+.brand img{width:34px;height:34px;border-radius:9px;box-shadow:0 0 18px rgba(255,79,163,.45)}
+.navlinks{display:flex;align-items:center;gap:26px;font-size:14.5px;color:var(--mist)}
+.navlinks a{text-decoration:none}.navlinks a:hover{color:var(--ivory)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:999px;padding:15px 26px;font:600 16px var(--sans);text-decoration:none;cursor:pointer;transition:transform .15s var(--ease),box-shadow .2s}
+.btn:active{transform:scale(.97)}
+.btn-primary{color:#fff;background:linear-gradient(160deg,#ff6fb5,var(--rose2));box-shadow:0 12px 34px -8px rgba(255,79,163,.6),inset 0 1px 0 rgba(255,255,255,.35)}
+.btn-primary:hover{box-shadow:0 16px 40px -8px rgba(255,79,163,.75),inset 0 1px 0 rgba(255,255,255,.35)}
+.btn-ghost{color:var(--ivory);background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+.btn-sm{padding:10px 18px;font-size:14.5px}
+@media (max-width:720px){.navlinks a:not(.btn){display:none}}
+
+/* Hero */
+.hero{padding:70px 0 90px}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--mist)}
+.eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--rose);box-shadow:0 0 0 0 rgba(255,79,163,.7);animation:pulse 1.8s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(255,79,163,0)}100%{box-shadow:0 0 0 0 rgba(255,79,163,0)}}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(56px,8.4vw,108px);line-height:.95;letter-spacing:-.025em;margin:22px 0 0}
+h1 span{color:var(--mist)}
+.lede{font-size:clamp(17px,1.6vw,20px);line-height:1.6;color:var(--mist);max-width:31em;margin:26px 0 0}
+.lede b{color:var(--ivory);font-weight:600}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.fine{margin-top:16px;font-size:13.5px;color:rgba(198,171,216,.75)}
+/* Phone with the ad */
+.phone{position:relative;justify-self:center;width:min(360px,100%);border-radius:52px;padding:12px;
+  background:linear-gradient(160deg,#3a2350,#150a22);box-shadow:0 60px 120px -40px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.08),inset 0 0 0 1px rgba(255,255,255,.05),0 0 120px -20px rgba(255,79,163,.35)}
+.phone::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;background:linear-gradient(150deg,rgba(255,160,210,.6),transparent 35%,rgba(123,60,255,.5));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.screen{position:relative;width:100%;aspect-ratio:9/16;border-radius:41px;overflow:hidden;background:#000}
+.screen video{width:100%;height:100%;object-fit:cover}
+.notch{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:64px;height:18px;border-radius:14px;background:#000;z-index:2}
+.sound{position:absolute;right:14px;bottom:14px;z-index:3;display:flex;align-items:center;gap:7px;border:0;border-radius:999px;padding:9px 13px;font:600 12.5px var(--sans);color:#fff;cursor:pointer;
+  background:rgba(22,11,38,.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.orb{position:absolute;border-radius:50%;filter:blur(.5px);z-index:-1;animation:float 7s ease-in-out infinite}
+.orb.a{width:90px;height:90px;left:-50px;top:18%;background:radial-gradient(circle at 32% 28%,#fff 0 9%,#ff8cc6 35%,#a13dd6 100%);box-shadow:0 0 40px rgba(255,79,163,.5)}
+.orb.b{width:56px;height:56px;right:-26px;top:58%;background:radial-gradient(circle at 32% 28%,#fff 0 9%,#7fc0ff 35%,#3b5bd9 100%);animation-delay:-2s;box-shadow:0 0 30px rgba(79,147,255,.5)}
+.orb.c{width:40px;height:40px;right:12%;top:-18px;background:radial-gradient(circle at 32% 28%,#fff 0 9%,#ffd27a 35%,#e08a12 100%);animation-delay:-4s}
+@keyframes float{50%{transform:translateY(-14px)}}
+@media (max-width:480px){.orb.a{left:-24px}.orb.b{right:-8px}}
+@media (max-width:900px){.hero{padding:40px 0 70px}.hero .wrap{grid-template-columns:1fr;gap:50px;text-align:center}.lede{margin-inline:auto}.ctas{justify-content:center}.eyebrow{justify-content:center}}
+
+/* Sections */
+section{padding:100px 0;position:relative}
+.kicker{font-size:12.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--rose)}
+h2{font-family:var(--serif);font-weight:400;font-size:clamp(38px,5vw,64px);line-height:1;letter-spacing:-.02em;margin:14px 0 0}
+h2 span{color:var(--mist)}
+.sub{color:var(--mist);font-size:18px;max-width:36em;margin:18px 0 0}
+.center{text-align:center}.center .sub{margin-inline:auto}
+
+/* Steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:56px}
+.step{border-radius:28px;padding:16px 16px 26px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.step figure{margin:0;border-radius:18px;overflow:hidden;aspect-ratio:540/700;background:#0d0618}
+.step figure img{width:100%;height:100%;object-fit:cover;object-position:top}
+.step .n{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;margin:20px 0 0 6px;font:700 13px var(--sans);background:linear-gradient(160deg,#ff6fb5,#a13dd6)}
+.step h3{font-family:var(--serif);font-weight:400;font-size:28px;letter-spacing:-.01em;margin:12px 6px 0}
+.step p{margin:8px 6px 0;color:var(--mist)}
+@media (max-width:900px){.steps{grid-template-columns:1fr;max-width:420px;margin-inline:auto}}
+
+/* Big statement */
+.statement{padding:130px 0;overflow:hidden}
+.statement .wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px;align-items:center}
+.loop{position:relative;border-radius:34px;overflow:hidden;aspect-ratio:540/987;max-height:640px;justify-self:center;width:100%;max-width:350px;box-shadow:0 50px 100px -40px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.08)}
+.loop video{width:100%;height:100%;object-fit:cover;object-position:top}
+.quote{font-family:var(--serif);font-size:clamp(34px,4.2vw,56px);line-height:1.08;letter-spacing:-.015em}
+.quote em{font-style:normal;color:var(--mist)}
+@media (max-width:900px){.statement .wrap{grid-template-columns:1fr;gap:40px}.loop{max-width:420px;margin:0 auto}}
+
+/* Features */
+.features{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:54px}
+.feature{padding:28px 24px;border-radius:24px;background:rgba(255,255,255,.03);box-shadow:inset 0 0 0 1px rgba(255,255,255,.07)}
+.feature b{display:block;font-family:var(--serif);font-weight:400;font-size:40px;line-height:1;letter-spacing:-.02em}
+.feature span{display:block;margin-top:12px;color:var(--mist);font-size:15px}
+@media (max-width:900px){.features{grid-template-columns:1fr 1fr}}
+@media (max-width:480px){.features{grid-template-columns:1fr}}
+
+/* Final CTA */
+.final{padding:120px 0 140px}
+.final .card{position:relative;overflow:hidden;border-radius:40px;padding:80px 30px;text-align:center;
+  background:radial-gradient(80% 120% at 50% 0%,rgba(255,79,163,.35),transparent 60%),linear-gradient(180deg,#2a1346,#170a28);box-shadow:0 0 0 1px rgba(255,255,255,.08)}
+.final img.logo{width:96px;height:96px;margin:0 auto;border-radius:24px;box-shadow:0 0 50px rgba(255,79,163,.55)}
+.final h2{margin-top:28px}
+.final .ctas{justify-content:center}
+.badge-soon{display:inline-flex;align-items:center;gap:10px;padding:13px 20px;border-radius:14px;background:#000;color:#fff;font-size:13px;line-height:1.2;text-align:left;box-shadow:inset 0 0 0 1px rgba(255,255,255,.22);opacity:.9}
+.badge-soon b{display:block;font-size:16px}
+
+footer{padding:40px 0 60px;border-top:1px solid rgba(255,255,255,.06);color:var(--mist);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;align-items:center}
+footer nav{position:static;background:none;border:0;backdrop-filter:none;display:flex;gap:20px;flex-wrap:wrap}
+footer a{text-decoration:none}footer a:hover{color:var(--ivory)}
+
+/* Reveal on scroll */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.orb,.eyebrow i{animation:none}}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="/?home"><img src="/assets/logo.webp" alt="">Tinted</a>
+    <div class="navlinks">
+      <a href="#how">How it works</a>
+      <a href="#why">Why Tinted</a>
+      <a class="btn btn-primary btn-sm" href="/app/">Play now</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow rv"><i></i>Play first. See later.</span>
+      <h1 class="rv">Looks can <span>wait.</span></h1>
+      <p class="lede rv">Tinted is the dating app where you <b>play before you see</b>. You're matched with one person, you both take on the same 90-second bubble board, and every heart you pop reveals something real about them while their photo slowly clears.</p>
+      <div class="ctas rv">
+        <a class="btn btn-primary" href="/app/">Play free in your browser</a>
+        <a class="btn btn-ghost" href="#how">See how it works</a>
+      </div>
+      <p class="fine rv">Free to play · 18+ only · Android app coming soon</p>
+    </div>
+    <div class="phone rv" aria-label="Tinted ad: a real duel, hearts freed and a photo clearing">
+      <span class="orb a" aria-hidden="true"></span><span class="orb b" aria-hidden="true"></span><span class="orb c" aria-hidden="true"></span>
+      <div class="screen">
+        <span class="notch" aria-hidden="true"></span>
+        <video id="ad" src="/assets/tinted-ad.mp4" poster="/assets/tinted-ad-poster.webp" autoplay muted loop playsinline preload="metadata"></video>
+        <button class="sound" id="sound" type="button" aria-pressed="false">🔇 Tap for sound</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="how">
+  <div class="wrap center">
+    <span class="kicker rv">How it works</span>
+    <h2 class="rv">Three steps. <span>Zero swiping.</span></h2>
+    <p class="sub rv">No scrolling through a hundred faces. One match, one board, and a reason to talk before you've even seen them.</p>
+    <div class="steps">
+      <article class="step rv">
+        <figure><img src="/assets/step-matched.webp" alt="A match card with a tinted photo" loading="lazy"></figure>
+        <span class="n">1</span>
+        <h3>Matched blind</h3>
+        <p>You get a first name, an age, one line about them, and a photo behind tinted glass.</p>
+      </article>
+      <article class="step rv">
+        <figure><img src="/assets/step-play.webp" alt="A bubble duel freeing hearts" loading="lazy"></figure>
+        <span class="n">2</span>
+        <h3>Play 90 seconds</h3>
+        <p>Same board, same seed, head to head. Every heart you free unlocks a fact and clears their photo.</p>
+      </article>
+      <article class="step rv">
+        <figure><img src="/assets/step-result.webp" alt="A close result screen" loading="lazy"></figure>
+        <span class="n">3</span>
+        <h3>Keep going</h3>
+        <p>If you both want more, chat opens. Win the next round and you see each other properly.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="statement" id="why">
+  <div class="wrap">
+    <div class="loop rv"><video src="/assets/duel-loop.mp4" autoplay muted loop playsinline preload="none" aria-label="Gameplay: a cascade of bubbles"></video></div>
+    <div>
+      <span class="kicker rv">Why Tinted</span>
+      <p class="quote rv">Dating apps ask you to judge a face in half a second. <em>We'd rather you found out if they're fun.</em></p>
+      <div class="features">
+        <div class="feature rv"><b>90s</b><span>A duel is shorter than a voice note.</span></div>
+        <div class="feature rv"><b>1</b><span>One person at a time. Your full attention.</span></div>
+        <div class="feature rv"><b>♥</b><span>Every heart reveals something real.</span></div>
+        <div class="feature rv"><b>£0</b><span>Free to play. No paywall to meet someone.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <div class="card rv">
+      <img class="logo" src="/assets/logo.webp" alt="Tinted">
+      <h2>Your next date <span>is a game away.</span></h2>
+      <p class="sub" style="margin-inline:auto">Play in your browser now. It installs to your home screen like an app.</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="/app/">Play now, it's free</a>
+        <span class="badge-soon" aria-label="Google Play, coming soon"><span>Coming soon on<b>Google Play</b></span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© Tinted · <a href="mailto:hello@playtinted.com">hello@playtinted.com</a></span>
+    <nav aria-label="Legal">
+      <a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/delete-account.html">Delete account</a><a href="/app/">Sign in</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  // Reveal sections as they scroll into view.
+  const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: 0.12 });
+  document.querySelectorAll(".rv").forEach((el, i) => { el.style.transitionDelay = (i % 4) * 70 + "ms"; io.observe(el); });
+  // Sound toggle for the ad (browsers only allow sound after a tap).
+  const ad = document.getElementById("ad"), btn = document.getElementById("sound");
+  btn.addEventListener("click", () => {
+    ad.muted = !ad.muted; if (!ad.muted) { ad.currentTime = 0; ad.play(); }
+    btn.textContent = ad.muted ? "🔇 Tap for sound" : "🔊 Sound on"; btn.setAttribute("aria-pressed", String(!ad.muted));
+  });
+</script>
+</body>
+</html>
