@@ -97,6 +97,10 @@ csp = ("default-src 'self'; "
 (OUT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     + "".join(f"  <url><loc>{SITE}/{p}</loc></url>\n" for p in ["", "app/", "privacy.html", "terms.html"]) + "</urlset>\n")
 (OUT / "_headers").write_text("/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n/app/src/brand/*\n  Cache-Control: public, max-age=604800\n/assets/*\n  Cache-Control: public, max-age=604800\n")
+# Fill in who runs Tinted and how to reach them (the legal pages ship with placeholders).
+COMPANY, SUPPORT = "Eden OS and Refinery Ltd", "hello@playtinted.com"
+for page in ["privacy.html", "terms.html", "delete-account.html"]:
+    f = OUT / page; f.write_text(f.read_text().replace("__COMPANY__", COMPANY).replace("__SUPPORT_EMAIL__", SUPPORT))
 # Every static page states its official address too.
 for page in ["privacy.html", "terms.html", "delete-account.html"]:
     f = OUT / page; h = f.read_text()
