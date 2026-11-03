@@ -162,7 +162,7 @@ export function createBoard(canvas, game, opts = {}) {
       haptic(n >= 6 ? "heavy" : "medium");
       shake = Math.min(1, 0.25 + n * 0.06);
       const end = res.path.at(-1);
-      texts.push({ x: end.x, y: end.y - 1, t: 0, txt: `+${res.gained}`, size: 0.85 });
+      if (!res.heartsFound) texts.push({ x: end.x, y: end.y - 1, t: 0, txt: `+${res.gained}`, size: 0.85 }); // hearts get their own label
       if (res.multiplier > 1) texts.push({ x: WIDTH / 2, y: HEIGHT * 0.62, t: 0, txt: `Combo ×${res.multiplier}`, size: 1.15, col: "#9fe3ff" });
     } else {
       sfx.stick();
@@ -304,7 +304,11 @@ export function createBoard(canvas, game, opts = {}) {
   return {
     get busy() { return !!anim; },
     shoot, swap: doSwap,
-    text(txt, opts2 = {}) { texts.push({ x: WIDTH / 2, y: HEIGHT * 0.42, t: 0, txt, size: opts2.size || 1.2, col: opts2.col || "#e9c98e" }); },
+    // Banner messages stack downwards while earlier ones are still showing, so they never overlap.
+    text(txt, opts2 = {}) {
+      const live = texts.filter((x) => x.banner && x.t < 1.0).length;
+      texts.push({ x: WIDTH / 2, y: HEIGHT * 0.42 + live * 1.9, t: 0, txt, size: opts2.size || 1.2, col: opts2.col || "#e9c98e", banner: true });
+    },
     shake(n = 0.6) { shake = Math.max(shake, n); },
     destroy() { destroyed = true; cancelAnimationFrame(raf); window.removeEventListener("resize", resize); },
   };

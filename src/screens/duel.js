@@ -107,7 +107,7 @@ export async function duelScreen(app, { duel_id, match_id }, nav) {
       reveals.push(f);
       renderReveals(f.idx);
       haptic("success");
-      board?.text(`Heart freed · ${f.label}`, { size: 1.05, col: "#ffc2d3" });
+      if (!unlock.quiet) board?.text(`Heart freed · ${f.label}`, { size: 1.05, col: "#ffc2d3" });
       ch.send({ type: "broadcast", event: "heart", payload: { label: f.label } });
       if (f.photo_level > level) { level = f.photo_level; paintThumb(true); board?.text("Their photo is clearing", { size: 0.8, col: "#bfe6ff" }); }
     } catch { /* round may have just ended */ }
@@ -131,6 +131,8 @@ export async function duelScreen(app, { duel_id, match_id }, nav) {
     canPlay: () => phase === "playing" && !ended,
     onInput: (x) => { inputs.push(x); save(); },
     onShot: (res) => {
+      if (res.heartsFound > 1) board.text(`${res.heartsFound} hearts freed`, { size: 1.1, col: "#ffc2d3" });
+      unlock.quiet = res.heartsFound > 1;
       for (let i = 0; i < res.heartsFound; i++) unlock();
       ch.send({ type: "broadcast", event: "score", payload: { score: game.score } });
       hud();
