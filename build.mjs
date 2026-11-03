@@ -1,7 +1,7 @@
 // Bundles the app into www/ and copies the shared engine to the edge functions.
 // SUPABASE_URL and SUPABASE_ANON_KEY come from the environment (GitHub secrets in CI, a .env file locally).
 import { build } from "esbuild";
-import { mkdirSync, copyFileSync, readFileSync, existsSync } from "node:fs";
+import { mkdirSync, copyFileSync, readFileSync, existsSync, cpSync } from "node:fs";
 
 if (existsSync(".env")) {
   for (const line of readFileSync(".env", "utf8").split("\n")) {
@@ -19,7 +19,7 @@ mkdirSync("www", { recursive: true });
 copyFileSync("shared/engine.js", "supabase/functions/finish-duel/engine.js");
 copyFileSync("src/index.html", "www/index.html");
 mkdirSync("www/brand", { recursive: true });
-for (const f of ["logo.webp", "logo-256.webp", "welcome.jpg", "splash.mp4", "splash-poster.webp", "gameplay.mp4", "gameplay-poster.webp"]) copyFileSync(`src/brand/${f}`, `www/brand/${f}`);
+cpSync("src/brand", "www/brand", { recursive: true }); // logo, intro video, gameplay video, icons, welcome photo
 
 await build({
   entryPoints: ["src/main.js"],
@@ -45,5 +45,7 @@ await build({
   outfile: "www/styles.css",
   loader: { ".woff2": "file", ".woff": "file" },
   assetNames: "fonts/[name]-[hash]",
+  // Brand images are copied to www/brand as-is, so leave their url() references alone.
+  external: ["*.webp", "*.png", "*.jpg", "*.mp4"],
 });
 console.log(`Built www/ for ${url} and copied the engine into supabase/functions/finish-duel.`);
