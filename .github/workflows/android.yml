@@ -76,9 +76,9 @@ jobs:
             -keypass "${{ secrets.ANDROID_KEY_PASSWORD }}" \
             android/app/build/outputs/bundle/release/app-release.aab "${{ secrets.ANDROID_KEY_ALIAS }}"
           rm upload.jks
-          mv android/app/build/outputs/bundle/release/app-release.aab pop-the-question-${{ github.run_number }}.aab
+          mv android/app/build/outputs/bundle/release/app-release.aab tinted-${{ github.run_number }}.aab
 
       - uses: actions/upload-artifact@v4
         with:
-          name: pop-the-question-aab-${{ github.run_number }}
-          path: pop-the-question-${{ github.run_number }}.aab
+          name: tinted-aab-${{ github.run_number }}
+          path: tinted-${{ github.run_number }}.aab
