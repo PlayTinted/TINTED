@@ -32,7 +32,7 @@ await build({
     __SUPABASE_URL__: JSON.stringify(url),
     __SUPABASE_ANON_KEY__: JSON.stringify(key),
     // Where privacy.html, terms.html and delete-account.html are hosted (GitHub Pages by default).
-    __LEGAL_BASE__: JSON.stringify((process.env.LEGAL_BASE_URL || "").replace(/\/$/, "")),
+    __LEGAL_BASE__: JSON.stringify((process.env.LEGAL_BASE_URL || "https://playtinted.com").replace(/\/$/, "")),
     // RevenueCat's public Google Play key (safe to ship in the app). Empty = subscriptions hidden.
     __REVENUECAT_KEY__: JSON.stringify(process.env.REVENUECAT_ANDROID_KEY || ""),
   },
