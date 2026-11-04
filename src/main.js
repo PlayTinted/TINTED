@@ -130,6 +130,6 @@ App.addListener("backButton", () => {
   if (session) { me.id = session.user.id; await enterApp(); } else go("auth");
   sb.auth.onAuthStateChange((event, s) => {
     if (event === "SIGNED_OUT") signedOut();
-    if (event === "SIGNED_IN" && s && me.id !== s.user.id) { me.id = s.user.id; enterApp(); }
+    if (event === "SIGNED_IN" && s && me.id !== s.user.id) { me.id = s.user.id; globalThis.tintedTrack?.("CompleteRegistration"); enterApp(); }
   });
 })();

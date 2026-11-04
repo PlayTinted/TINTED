@@ -43,10 +43,10 @@ importmap = json.dumps({"imports": imports}, indent=1)
 h = base64.b64encode(hashlib.sha256(importmap.encode()).digest()).decode()
 sb_host = URL.replace("https://", "")
 csp = ("default-src 'self'; "
-       f"script-src 'self' https://cdn.jsdelivr.net 'sha256-{h}'; "
+       f"script-src 'self' https://cdn.jsdelivr.net https://analytics.tiktok.com 'sha256-{h}'; "
        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; "
-       f"img-src 'self' data: blob: https://{sb_host} https://play.google.com; media-src 'self'; "
-       f"connect-src 'self' https://{sb_host} wss://{sb_host} https://cdn.jsdelivr.net")
+       f"img-src 'self' data: blob: https://{sb_host} https://play.google.com https://*.tiktok.com; media-src 'self'; "
+       f"connect-src 'self' https://{sb_host} wss://{sb_host} https://cdn.jsdelivr.net https://*.tiktok.com")
 (APP / "index.html").write_text(f"""<!doctype html>
 <html lang="en-GB">
 <head>
@@ -108,3 +108,11 @@ for page in ["privacy.html", "terms.html", "delete-account.html"]:
         h = h.replace("<head>", f'<head>\n<link rel="canonical" href="{SITE}/{page}">', 1)
     f.write_text(h)
 print("Built", OUT)
+
+# TikTok Pixel (consent-gated) in the <head> of every page.
+shutil.copy(ROOT / "site" / "tt.js", OUT / "tt.js")
+for f in OUT.rglob("*.html"):
+    h = f.read_text()
+    if "/tt.js" not in h:
+        h = re.sub(r"(<head[^>]*>)", r'\1\n<script src="/tt.js"></script>', h, count=1)
+        f.write_text(h)
