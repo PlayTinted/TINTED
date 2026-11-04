@@ -45,7 +45,11 @@ a{color:inherit;text-underline-offset:.22em;text-decoration-thickness:1px}
 .bar{position:fixed}
 h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance;letter-spacing:-.005em}
 p{margin:0;text-wrap:pretty}
-.big{font-size:clamp(44px,5.6vw,90px);line-height:1.02}
+.big{font-size:clamp(44px,5.6vw,90px);line-height:1.04;text-shadow:0 .035em 0 #c2187a}
+.field .big{text-shadow:none}
+.steps h3,.rules b,.who b{text-shadow:0 .04em 0 #c2187a}
+/* The wordmark, exactly as in the app: glossy pink-white with the logo's rim */
+.gloss{background:linear-gradient(180deg,#fff 0%,#ffd3ea 45%,#ff8cc6 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 0 #c21e76) drop-shadow(0 0 14px rgba(255,79,163,.45))}
 
 /* Buttons */
 .btn{display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 28px;border-radius:999px;border:0;font:600 17.5px var(--text);text-decoration:none;cursor:pointer;
@@ -198,8 +202,8 @@ p{margin:0;text-wrap:pretty}
 .close h2{max-width:11em}
 .close .go{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
 .store{display:inline-flex;align-items:center;min-height:56px;padding:0 22px;border-radius:999px;background:var(--night);color:var(--soft);font-size:15.5px}
-.giant{display:flex;font:400 clamp(100px,26vw,420px)/1 var(--display);margin:clamp(50px,7vw,100px) 0 0;white-space:nowrap;text-shadow:var(--depth)}
-.giant i{font-style:normal;display:inline-block;padding-right:.02em;filter:blur(calc(var(--t,1) * 18px));opacity:calc(1 - var(--t,1) * .75);color:var(--ink)}
+.giant{display:flex;font:400 clamp(100px,26vw,420px)/1 var(--display);margin:clamp(50px,7vw,100px) 0 0;white-space:nowrap;filter:drop-shadow(0 .03em 0 #c21e76) drop-shadow(0 0 30px rgba(255,79,163,.35))}
+.giant i{font-style:normal;display:inline-block;padding:0 .02em .06em 0;background:linear-gradient(180deg,#fff 0%,#ffd3ea 45%,#ff8cc6 100%);-webkit-background-clip:text;background-clip:text;color:transparent!important;filter:blur(calc(var(--t,1) * 18px));opacity:calc(1 - var(--t,1) * .75);color:var(--ink)}
 .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px 30px;margin-top:40px;font-size:15.5px;color:var(--soft)}
 .foot nav{display:flex;flex-wrap:wrap;gap:22px}
 .foot a{text-decoration:none}.foot a:hover{color:var(--ink)}
@@ -221,7 +225,7 @@ p{margin:0;text-wrap:pretty}
 <canvas id="fizz" aria-hidden="true"></canvas>
 <header class="bar" id="bar">
   <div class="frame">
-    <a class="word" href="/?home"><img src="/assets/logo.webp" alt="">Tinted</a>
+    <a class="word" href="/?home"><img src="/assets/logo.webp" alt=""><span class="gloss">Tinted</span></a>
     <nav aria-label="Sections"><a href="#duel">The duel</a><a href="#stages">How it works</a><a href="#safety">Safety</a></nav>
     <a class="btn" href="/app/">Play now</a>
   </div>

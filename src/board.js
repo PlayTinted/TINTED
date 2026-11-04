@@ -7,7 +7,7 @@ import { sfx, unlockAudio } from "./sound.js";
 
 // Glacier-tinted jewel tones: ruby, amber, mint, sapphire, violet.
 export const ORB_COLOURS = ["#ef5a7a", "#f5b94f", "#3fd1a6", "#4f93ff", "#a585ff"];
-const FONT = '"Geist Variable", "Geist", system-ui, sans-serif';
+const FONT = '"Fredoka Variable", "Fredoka", system-ui, sans-serif';
 const NEXT_POS = { x: LAUNCH.x + 3.4, y: LAUNCH.y + 0.7 };
 
 const hexRgb = (hex) => { const n = parseInt(hex.slice(1), 16); return [n >> 16, (n >> 8) & 255, n & 255]; };
