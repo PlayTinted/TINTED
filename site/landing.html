@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#160b26">
 <title>Tinted · Looks can wait.</title>
-<meta name="description" content="Tinted is a dating app where you play before you see. Get matched, play a 90-second bubble duel, and every heart you free reveals something real and clears their photo.">
+<meta name="description" content="Tinted is the dating app where you play before you see. Match blind, play a 90-second bubble duel, and every heart you free clears their photo.">
 <link rel="canonical" href="https://playtinted.com/">
 <meta property="og:title" content="Tinted · Looks can wait.">
 <meta property="og:description" content="The dating app where you play first and see later.">
@@ -16,7 +16,7 @@
 <link rel="icon" href="/assets/logo.webp">
 <link rel="apple-touch-icon" href="/src/brand/icons/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&family=Gloock&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Gloock&display=swap">
 <script>
   // Already signed in on this device? Go straight to the app (add ?home to stay here).
   try {
@@ -24,233 +24,324 @@
   } catch (e) {}
 </script>
 <style>
-:root{--night:#160b26;--deep:#0d0618;--velvet:#22123a;--ivory:#fff2f8;--mist:#c6abd8;--rose:#ff4fa3;--rose2:#e2338f;--gold:#ffc857;
-  --serif:"Gloock",Georgia,serif;--sans:"Geist",system-ui,-apple-system,"Segoe UI",sans-serif;--ease:cubic-bezier(.2,.8,.2,1)}
+:root{
+  --night:#160b26; --night-2:#1f1035; --night-3:#2a1646;
+  --ink:#fff2f8; --soft:#d9c4e6; --rose:#ff4fa3; --rose-ink:#2b0a1c; --gold:#ffc857;
+  --display:"Gloock",Georgia,serif; --text:"Geist",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --out:cubic-bezier(.16,1,.3,1); --margin:clamp(20px,4vw,56px); --gap:clamp(110px,14vw,200px);
+}
 *{box-sizing:border-box}
-html{background:var(--night);scroll-behavior:smooth;overflow-x:clip}
-body{margin:0;color:var(--ivory);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden;
-  background:radial-gradient(60% 50% at 85% 0%,rgba(255,79,163,.22),transparent 70%),radial-gradient(50% 40% at 0% 20%,rgba(79,147,255,.12),transparent 70%),var(--night)}
-a{color:inherit}
-img,video{display:block;max-width:100%}
-.wrap{width:min(1160px,100% - 40px);margin:0 auto}
-.grain{position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.06;mix-blend-mode:overlay;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+html{background:var(--night);color:var(--ink);scrollbar-color:var(--night-3) var(--night);-webkit-text-size-adjust:100%}
+body{margin:0;font:400 18px/1.55 var(--text);-webkit-font-smoothing:antialiased;overflow-x:clip;caret-color:var(--rose)}
+::selection{background:var(--rose);color:var(--rose-ink)}
+img,video,svg{display:block;max-width:100%}
+a{color:inherit;text-underline-offset:.22em;text-decoration-thickness:1px}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+.frame{padding-inline:var(--margin);max-width:1520px;margin-inline:auto}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance}
+p{margin:0;text-wrap:pretty}
 
-/* Nav */
-nav{position:sticky;top:0;z-index:40;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:rgba(22,11,38,.55);border-bottom:1px solid rgba(255,255,255,.06)}
-nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;letter-spacing:-.03em;font-size:21px}
-.brand img{width:34px;height:34px;border-radius:9px;box-shadow:0 0 18px rgba(255,79,163,.45)}
-.navlinks{display:flex;align-items:center;gap:26px;font-size:14.5px;color:var(--mist)}
-.navlinks a{text-decoration:none}.navlinks a:hover{color:var(--ivory)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:999px;padding:15px 26px;font:600 16px var(--sans);text-decoration:none;cursor:pointer;transition:transform .15s var(--ease),box-shadow .2s}
+/* Buttons: flat, pill, one fill */
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:54px;padding:0 28px;border-radius:999px;border:0;font:600 17px var(--text);text-decoration:none;cursor:pointer;
+  background:var(--rose);color:var(--rose-ink);transition:transform .25s var(--out),background-color .2s}
+.btn:hover{background:#ff6cb4}
 .btn:active{transform:scale(.97)}
-.btn-primary{color:#fff;background:linear-gradient(160deg,#ff6fb5,var(--rose2));box-shadow:0 12px 34px -8px rgba(255,79,163,.6),inset 0 1px 0 rgba(255,255,255,.35)}
-.btn-primary:hover{box-shadow:0 16px 40px -8px rgba(255,79,163,.75),inset 0 1px 0 rgba(255,255,255,.35)}
-.btn-ghost{color:var(--ivory);background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
-.btn-sm{padding:10px 18px;font-size:14.5px}
-@media (max-width:720px){.navlinks a:not(.btn){display:none}}
+.btn svg{width:18px;height:18px}
+.textlink{font-weight:600;text-decoration:underline;text-decoration-color:rgba(255,242,248,.35)}
+.textlink:hover{text-decoration-color:var(--ink)}
+
+/* Nav: plain bar */
+.bar{position:fixed;inset:0 0 auto;z-index:30;transition:background-color .3s}
+.bar.solid{background:var(--night)}
+.bar .frame{display:flex;align-items:center;gap:36px;height:76px}
+.word{display:flex;align-items:center;gap:12px;font:22px var(--display);text-decoration:none}
+.word img{width:36px;height:36px;border-radius:10px}
+.bar nav{display:flex;gap:30px;margin-left:auto;font-size:16px}
+.bar nav a{text-decoration:none;color:var(--soft)}
+.bar nav a:hover{color:var(--ink)}
+.bar .btn{min-height:44px;padding:0 20px;font-size:15.5px}
+@media (max-width:760px){.bar nav{display:none}.bar .btn{margin-left:auto}}
 
 /* Hero */
-.hero{padding:70px 0 90px}
-.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center}
-.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--mist)}
-.eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--rose);box-shadow:0 0 0 0 rgba(255,79,163,.7);animation:pulse 1.8s infinite}
-@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(255,79,163,0)}100%{box-shadow:0 0 0 0 rgba(255,79,163,0)}}
-h1{font-family:var(--serif);font-weight:400;font-size:clamp(56px,8.4vw,108px);line-height:.95;letter-spacing:-.025em;margin:22px 0 0}
-h1 span{color:var(--mist)}
-.lede{font-size:clamp(17px,1.6vw,20px);line-height:1.6;color:var(--mist);max-width:31em;margin:26px 0 0}
-.lede b{color:var(--ivory);font-weight:600}
-.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
-.fine{margin-top:16px;font-size:13.5px;color:rgba(198,171,216,.75)}
-/* Phone with the ad */
-.phone{position:relative;justify-self:center;width:min(360px,100%);border-radius:52px;padding:12px;
-  background:linear-gradient(160deg,#3a2350,#150a22);box-shadow:0 60px 120px -40px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.08),inset 0 0 0 1px rgba(255,255,255,.05),0 0 120px -20px rgba(255,79,163,.35)}
-.phone::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;background:linear-gradient(150deg,rgba(255,160,210,.6),transparent 35%,rgba(123,60,255,.5));
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
-.screen{position:relative;width:100%;aspect-ratio:9/16;border-radius:41px;overflow:hidden;background:#000}
-.screen video{width:100%;height:100%;object-fit:cover}
-.notch{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:64px;height:18px;border-radius:14px;background:#000;z-index:2}
-.sound{position:absolute;right:14px;bottom:14px;z-index:3;display:flex;align-items:center;gap:7px;border:0;border-radius:999px;padding:9px 13px;font:600 12.5px var(--sans);color:#fff;cursor:pointer;
-  background:rgba(22,11,38,.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
-.orb{position:absolute;border-radius:50%;filter:blur(.5px);z-index:-1;animation:float 7s ease-in-out infinite}
-.orb.a{width:90px;height:90px;left:-50px;top:18%;background:radial-gradient(circle at 32% 28%,#fff 0 9%,#ff8cc6 35%,#a13dd6 100%);box-shadow:0 0 40px rgba(255,79,163,.5)}
-.orb.b{width:56px;height:56px;right:-26px;top:58%;background:radial-gradient(circle at 32% 28%,#fff 0 9%,#7fc0ff 35%,#3b5bd9 100%);animation-delay:-2s;box-shadow:0 0 30px rgba(79,147,255,.5)}
-.orb.c{width:40px;height:40px;right:12%;top:-18px;background:radial-gradient(circle at 32% 28%,#fff 0 9%,#ffd27a 35%,#e08a12 100%);animation-delay:-4s}
-@keyframes float{50%{transform:translateY(-14px)}}
-@media (max-width:480px){.orb.a{left:-24px}.orb.b{right:-8px}}
-@media (max-width:900px){.hero{padding:40px 0 70px}.hero .wrap{grid-template-columns:1fr;gap:50px;text-align:center}.lede{margin-inline:auto}.ctas{justify-content:center}.eyebrow{justify-content:center}}
+.hero{min-height:100svh;padding-top:130px;padding-bottom:80px;display:grid;align-items:center}
+.hero .frame{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(40px,6vw,110px);align-items:center;width:100%}
+.hero h1{font-size:clamp(68px,9.6vw,156px);line-height:.88;letter-spacing:-.035em}
+.hero .say{font-size:clamp(19px,1.5vw,23px);max-width:28em;margin-top:36px}
+.hero .go{display:flex;flex-wrap:wrap;align-items:center;gap:14px 28px;margin-top:40px}
+.hero .note{margin-top:26px;font-size:15.5px;color:var(--soft)}
 
-/* Sections */
-section{padding:100px 0;position:relative}
-.kicker{font-size:12.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--rose)}
-h2{font-family:var(--serif);font-weight:400;font-size:clamp(38px,5vw,64px);line-height:1;letter-spacing:-.02em;margin:14px 0 0}
-h2 span{color:var(--mist)}
-.sub{color:var(--mist);font-size:18px;max-width:36em;margin:18px 0 0}
-.center{text-align:center}.center .sub{margin-inline:auto}
+/* The live thing: a real profile behind tinted glass */
+.glass{position:relative}
+.portrait{position:relative;aspect-ratio:4/5;max-height:min(58vh,620px);width:100%;overflow:hidden;border-radius:28px;background:var(--night-2)}
+.portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(calc(1.14 - var(--clear) * .14));
+  filter:blur(calc((1 - var(--clear)) * 26px)) saturate(calc(.55 + var(--clear) * .45)) brightness(calc(.72 + var(--clear) * .28));transition:filter 1.1s var(--out),transform 1.4s var(--out)}
+.portrait .tint{position:absolute;inset:0;background:#7a2a8c;mix-blend-mode:color;opacity:calc((1 - var(--clear)) * .85);transition:opacity 1.1s var(--out)}
+.portrait .who{position:absolute;left:0;right:0;bottom:0;padding:60px 24px 22px;display:flex;align-items:end;justify-content:space-between;gap:12px;
+  background:linear-gradient(to top,rgba(22,11,38,.85),rgba(22,11,38,0))}
+.who b{font:400 clamp(30px,2.6vw,40px)/1 var(--display)}
+.who span{display:block;font-size:15px;color:var(--soft);margin-top:6px}
+.state{font-size:14px;font-weight:600;padding:8px 14px;border-radius:999px;background:var(--night);white-space:nowrap}
+.pops{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:22px}
+.pops p{font-size:15.5px;color:var(--soft)}
+.hearts{display:flex;gap:8px}
+.heart{width:46px;height:46px;border-radius:50%;border:0;padding:0;cursor:pointer;position:relative;
+  background:radial-gradient(circle at 34% 30%,#fff 0 7%,#ffd1e8 18%,#ff74b9 46%,#c2187a 100%);
+  transition:transform .35s var(--out),opacity .35s,filter .35s}
+.heart svg{position:absolute;inset:13px;fill:#fff}
+.heart:hover{transform:translateY(-3px) scale(1.06)}
+.heart:active{transform:scale(.9)}
+.heart.done{opacity:.22;filter:grayscale(1);transform:scale(.82);cursor:default}
+.facts{list-style:none;margin:18px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.facts li{padding:12px 16px 13px;border-radius:16px;background:var(--night-2);font-size:15.5px;line-height:1.35;min-height:72px}
+.facts .k{display:block;font-size:13.5px;color:var(--soft);margin-bottom:3px}
+.facts .v{transition:filter .6s var(--out),opacity .6s}
+.facts li:not(.on) .v{filter:blur(6px);opacity:.45;user-select:none}
+.facts li.on{background:var(--night-3)}
+.glass .cap{margin-top:14px;font-size:14px;color:var(--soft)}
+@media (max-width:980px){.hero{padding-top:110px}.hero .frame{grid-template-columns:1fr}.glass{max-width:520px}}
+@media (max-width:420px){.heart{width:40px;height:40px}.heart svg{inset:11px}.facts{grid-template-columns:1fr}.facts li{min-height:0}}
 
-/* Steps */
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:56px}
-.step{border-radius:28px;padding:16px 16px 26px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
-.step figure{margin:0;border-radius:18px;overflow:hidden;aspect-ratio:540/700;background:#0d0618}
-.step figure img{width:100%;height:100%;object-fit:cover;object-position:top}
-.step .n{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;margin:20px 0 0 6px;font:700 13px var(--sans);background:linear-gradient(160deg,#ff6fb5,#a13dd6)}
-.step h3{font-family:var(--serif);font-weight:400;font-size:28px;letter-spacing:-.01em;margin:12px 6px 0}
-.step p{margin:8px 6px 0;color:var(--mist)}
-@media (max-width:900px){.steps{grid-template-columns:1fr;max-width:420px;margin-inline:auto}}
+/* Rose field: the duel */
+.field{background:var(--rose);color:var(--rose-ink);margin-top:var(--gap)}
+.field .frame{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:clamp(40px,6vw,100px);align-items:center;padding-block:clamp(90px,11vw,170px)}
+.field h2{font-size:clamp(52px,7vw,112px);line-height:.92;letter-spacing:-.03em}
+.field .lede{font-size:clamp(19px,1.5vw,22px);max-width:30em;margin-top:28px}
+.field .lines{margin-top:52px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.field .lines b{display:block;font:400 30px/1 var(--display);margin-bottom:10px}
+.field .lines p{font-size:16.5px}
+.clip{aspect-ratio:9/16;max-height:78vh;justify-self:end;width:100%;max-width:400px;border-radius:28px;overflow:hidden;background:var(--night)}
+.clip video{width:100%;height:100%;object-fit:cover;object-position:top}
+@media (max-width:900px){.field .frame{grid-template-columns:1fr}.clip{justify-self:start;max-width:360px}.field .lines{grid-template-columns:1fr}}
 
-/* Big statement */
-.statement{padding:130px 0;overflow:hidden}
-.statement .wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px;align-items:center}
-.loop{position:relative;border-radius:34px;overflow:hidden;aspect-ratio:540/987;max-height:640px;justify-self:center;width:100%;max-width:350px;box-shadow:0 50px 100px -40px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.08)}
-.loop video{width:100%;height:100%;object-fit:cover;object-position:top}
-.quote{font-family:var(--serif);font-size:clamp(34px,4.2vw,56px);line-height:1.08;letter-spacing:-.015em}
-.quote em{font-style:normal;color:var(--mist)}
-@media (max-width:900px){.statement .wrap{grid-template-columns:1fr;gap:40px}.loop{max-width:420px;margin:0 auto}}
+/* A whole match */
+.match{padding-top:var(--gap)}
+.match .frame{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(40px,7vw,120px);align-items:center}
+.player{position:relative;aspect-ratio:9/16;width:100%;max-width:420px;border-radius:30px;overflow:hidden;background:#000}
+.player video{width:100%;height:100%;object-fit:cover}
+.sound{position:absolute;left:16px;bottom:16px;display:flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:999px;border:0;
+  background:var(--night);color:var(--ink);font:600 14.5px var(--text);cursor:pointer;box-shadow:0 8px 24px -8px rgba(0,0,0,.6)}
+.sound svg{width:18px;height:18px}
+.match h2{font-size:clamp(44px,5.4vw,84px);line-height:.95;letter-spacing:-.025em}
+.match .say{margin-top:24px;max-width:30em;color:var(--soft)}
+.stages{list-style:none;margin:56px 0 0;padding:0}
+.stages li{display:grid;grid-template-columns:minmax(120px,.34fr) 1fr;gap:24px;padding:26px 0;align-items:baseline}
+.stages li+li{border-top:2px solid var(--night-3)}
+.stages h3{font-size:clamp(32px,3vw,46px);line-height:1}
+.stages p{font-size:18px}
+@media (max-width:900px){.match .frame{grid-template-columns:1fr}.player{max-width:400px}.stages li{grid-template-columns:1fr;gap:8px}}
 
-/* Features */
-.features{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:54px}
-.feature{padding:28px 24px;border-radius:24px;background:rgba(255,255,255,.03);box-shadow:inset 0 0 0 1px rgba(255,255,255,.07)}
-.feature b{display:block;font-family:var(--serif);font-weight:400;font-size:40px;line-height:1;letter-spacing:-.02em}
-.feature span{display:block;margin-top:12px;color:var(--mist);font-size:15px}
-@media (max-width:900px){.features{grid-template-columns:1fr 1fr}}
-@media (max-width:480px){.features{grid-template-columns:1fr}}
+/* Screens */
+.screens{padding-top:var(--gap)}
+.screens h2{font-size:clamp(44px,5.4vw,84px);line-height:.95;letter-spacing:-.025em;max-width:12em}
+.shots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2.4vw,36px);margin-top:64px;align-items:start}
+.shots figure{margin:0}
+.shots figure:nth-child(2){margin-top:clamp(40px,7vw,110px)}
+.shots figure:nth-child(3){margin-top:clamp(20px,3.5vw,55px)}
+.shots .img{aspect-ratio:540/700;border-radius:24px;overflow:hidden;background:var(--night-2)}
+.shots img{width:100%;height:100%;object-fit:cover;object-position:top}
+.shots figcaption{margin-top:18px;font-size:17px}
+.shots figcaption b{font:400 26px var(--display);display:block;margin-bottom:4px}
+@media (max-width:760px){.shots{grid-template-columns:1fr;max-width:440px}.shots figure:nth-child(n){margin-top:0}}
 
-/* Final CTA */
-.final{padding:120px 0 140px}
-.final .card{position:relative;overflow:hidden;border-radius:40px;padding:80px 30px;text-align:center;
-  background:radial-gradient(80% 120% at 50% 0%,rgba(255,79,163,.35),transparent 60%),linear-gradient(180deg,#2a1346,#170a28);box-shadow:0 0 0 1px rgba(255,255,255,.08)}
-.final img.logo{width:96px;height:96px;margin:0 auto;border-radius:24px;box-shadow:0 0 50px rgba(255,79,163,.55)}
-.final h2{margin-top:28px}
-.final .ctas{justify-content:center}
-.badge-soon{display:inline-flex;align-items:center;gap:10px;padding:13px 20px;border-radius:14px;background:#000;color:#fff;font-size:13px;line-height:1.2;text-align:left;box-shadow:inset 0 0 0 1px rgba(255,255,255,.22);opacity:.9}
-.badge-soon b{display:block;font-size:16px}
+/* Safety */
+.safe{padding-top:var(--gap)}
+.safe .frame{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,7vw,120px)}
+.safe h2{font-size:clamp(44px,5.4vw,84px);line-height:.95;letter-spacing:-.025em}
+.safe .say{margin-top:24px;color:var(--soft);max-width:28em}
+.rules{list-style:none;margin:0;padding:0;display:grid;gap:14px;align-content:start}
+.rules li{background:var(--night-2);border-radius:20px;padding:22px 24px;font-size:18px}
+.rules b{display:block;font:400 26px/1.1 var(--display);margin-bottom:6px}
+@media (max-width:900px){.safe .frame{grid-template-columns:1fr}}
 
-footer{padding:40px 0 60px;border-top:1px solid rgba(255,255,255,.06);color:var(--mist);font-size:14px}
-footer .wrap{display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;align-items:center}
-footer nav{position:static;background:none;border:0;backdrop-filter:none;display:flex;gap:20px;flex-wrap:wrap}
-footer a{text-decoration:none}footer a:hover{color:var(--ivory)}
+/* Close */
+.close{margin-top:var(--gap);background:var(--night-2);padding-block:clamp(90px,10vw,150px) 50px}
+.close .ask{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:30px}
+.close h2{font-size:clamp(44px,5.4vw,84px);line-height:.95;letter-spacing:-.025em;max-width:11em}
+.close .go{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.store{display:inline-flex;align-items:center;min-height:54px;padding:0 22px;border-radius:999px;background:var(--night);color:var(--soft);font-size:15.5px}
+.giant{font:400 clamp(110px,30.5vw,470px)/.8 var(--display);letter-spacing:-.05em;margin:clamp(70px,9vw,130px) 0 0 -.04em;color:var(--ink);white-space:nowrap}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px 30px;margin-top:40px;font-size:15.5px;color:var(--soft)}
+.foot nav{display:flex;flex-wrap:wrap;gap:22px}
+.foot a{text-decoration:none}.foot a:hover{color:var(--ink)}
 
-/* Reveal on scroll */
-.rv{opacity:0;transform:translateY(24px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
-.rv.in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.orb,.eyebrow i{animation:none}}
+/* Motion: content is visible by default; script adds the entrance */
+.js .up{opacity:0;transform:translateY(26px)}
+.js .up.in{opacity:1;transform:none;transition:opacity .9s var(--out),transform .9s var(--out)}
+@media (prefers-reduced-motion:reduce){
+  .js .up{opacity:1;transform:none}
+  .portrait img,.portrait .tint,.heart,.facts .v{transition:none}
+}
 </style>
 </head>
 <body>
-<div class="grain" aria-hidden="true"></div>
-
-<nav>
-  <div class="wrap">
-    <a class="brand" href="/?home"><img src="/assets/logo.webp" alt="">Tinted</a>
-    <div class="navlinks">
-      <a href="#how">How it works</a>
-      <a href="#why">Why Tinted</a>
-      <a class="btn btn-primary btn-sm" href="/app/">Play now</a>
-    </div>
-  </div>
-</nav>
-
-<header class="hero">
-  <div class="wrap">
-    <div>
-      <span class="eyebrow rv"><i></i>Play first. See later.</span>
-      <h1 class="rv">Looks can <span>wait.</span></h1>
-      <p class="lede rv">Tinted is the dating app where you <b>play before you see</b>. You're matched with one person, you both take on the same 90-second bubble board, and every heart you pop reveals something real about them while their photo slowly clears.</p>
-      <div class="ctas rv">
-        <a class="btn btn-primary" href="/app/">Play free in your browser</a>
-        <a class="btn btn-ghost" href="#how">See how it works</a>
-      </div>
-      <p class="fine rv">Free to play · 18+ only · Android app coming soon</p>
-    </div>
-    <div class="phone rv" aria-label="Tinted ad: a real duel, hearts freed and a photo clearing">
-      <span class="orb a" aria-hidden="true"></span><span class="orb b" aria-hidden="true"></span><span class="orb c" aria-hidden="true"></span>
-      <div class="screen">
-        <span class="notch" aria-hidden="true"></span>
-        <video id="ad" src="/assets/tinted-ad.mp4?v=2" poster="/assets/tinted-ad-poster.webp?v=2" autoplay muted loop playsinline preload="metadata"></video>
-        <button class="sound" id="sound" type="button" aria-pressed="false">🔇 Tap for sound</button>
-      </div>
-    </div>
+<header class="bar" id="bar">
+  <div class="frame">
+    <a class="word" href="/?home"><img src="/assets/logo.webp" alt="">Tinted</a>
+    <nav aria-label="Sections"><a href="#duel">The duel</a><a href="#match">How it works</a><a href="#safety">Safety</a></nav>
+    <a class="btn" href="/app/">Play now</a>
   </div>
 </header>
 
-<section id="how">
-  <div class="wrap center">
-    <span class="kicker rv">How it works</span>
-    <h2 class="rv">Three steps. <span>Zero swiping.</span></h2>
-    <p class="sub rv">No scrolling through a hundred faces. One match, one board, and a reason to talk before you've even seen them.</p>
-    <div class="steps">
-      <article class="step rv">
-        <figure><img src="/assets/step-matched.webp" alt="A match card with a tinted photo" loading="lazy"></figure>
-        <span class="n">1</span>
-        <h3>Matched blind</h3>
-        <p>You get a first name, an age, one line about them, and a photo behind tinted glass.</p>
-      </article>
-      <article class="step rv">
-        <figure><img src="/assets/step-play.webp" alt="A bubble duel freeing hearts" loading="lazy"></figure>
-        <span class="n">2</span>
-        <h3>Play 90 seconds</h3>
-        <p>Same board, same seed, head to head. Every heart you free unlocks a fact and clears their photo.</p>
-      </article>
-      <article class="step rv">
-        <figure><img src="/assets/step-result.webp" alt="A close result screen" loading="lazy"></figure>
-        <span class="n">3</span>
-        <h3>Keep going</h3>
-        <p>If you both want more, chat opens. Win the next round and you see each other properly.</p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section class="statement" id="why">
-  <div class="wrap">
-    <div class="loop rv"><video src="/assets/duel-loop.mp4" autoplay muted loop playsinline preload="none" aria-label="Gameplay: a cascade of bubbles"></video></div>
+<main>
+<section class="hero" aria-labelledby="title">
+  <div class="frame">
     <div>
-      <span class="kicker rv">Why Tinted</span>
-      <p class="quote rv">Dating apps ask you to judge a face in half a second. <em>We'd rather you found out if they're fun.</em></p>
-      <div class="features">
-        <div class="feature rv"><b>90s</b><span>A duel is shorter than a voice note.</span></div>
-        <div class="feature rv"><b>1</b><span>One person at a time. Your full attention.</span></div>
-        <div class="feature rv"><b>♥</b><span>Every heart reveals something real.</span></div>
-        <div class="feature rv"><b>18+</b><span>Adults only, with reporting and blocking built in.</span></div>
+      <h1 id="title" class="up">Looks can wait.</h1>
+      <p class="say up">Tinted is the dating app where you play before you see. You're matched with one person, you both take on the same 90-second bubble board, and every heart you pop clears a little more of their photo.</p>
+      <div class="go up">
+        <a class="btn" href="/app/">Play in your browser
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="textlink" href="#match">Watch a whole match</a>
       </div>
+      <p class="note up">Free while we launch. 18+ only. Works on any phone.</p>
+    </div>
+
+    <div class="glass up" id="glass" style="--clear:0">
+      <div class="portrait">
+        <img src="/assets/jake.webp" alt="Jake's profile photo, behind tinted glass until you pop the hearts" width="640" height="800">
+        <span class="tint" aria-hidden="true"></span>
+        <div class="who"><div><b>Jake, 29</b><span>London</span></div><span class="state" id="state" aria-live="polite">Tinted</span></div>
+      </div>
+      <div class="pops">
+        <p id="hint">Pop a heart to learn something.</p>
+        <div class="hearts" id="hearts" role="group" aria-label="Hearts to pop"></div>
+      </div>
+      <ul class="facts" id="facts"></ul>
+      <p class="cap">An example profile. On Tinted the hearts come from the duel.</p>
     </div>
   </div>
 </section>
 
-<section class="final">
-  <div class="wrap">
-    <div class="card rv">
-      <img class="logo" src="/assets/logo.webp" alt="Tinted">
-      <h2>Your next date <span>is a game away.</span></h2>
-      <p class="sub" style="margin-inline:auto">Play in your browser now. It installs to your home screen like an app.</p>
-      <div class="ctas">
-        <a class="btn btn-primary" href="/app/">Play now, it's free</a>
-        <span class="badge-soon" aria-label="Google Play, coming soon"><span>Coming soon on<b>Google Play</b></span></span>
+<section class="field" id="duel" aria-labelledby="duel-h">
+  <div class="frame">
+    <div>
+      <h2 id="duel-h" class="up">Ninety seconds. Same board.</h2>
+      <p class="lede up">You and your match play the identical bubble board, head to head. The better you play, the more of them you see.</p>
+      <div class="lines">
+        <div class="up"><b>Same seed</b><p>You both get the identical board, so it's skill, not luck.</p></div>
+        <div class="up"><b>Hearts</b><p>Free one and you learn a fact. Every heart clears their photo a little.</p></div>
+        <div class="up"><b>Live</b><p>Play at the same time and you watch their score climb against yours.</p></div>
       </div>
+    </div>
+    <div class="clip up"><video src="/assets/duel-loop.mp4" poster="/assets/duel-loop.webp" autoplay muted loop playsinline preload="metadata" aria-label="A Tinted duel: a cascade of bubbles frees two hearts"></video></div>
+  </div>
+</section>
+
+<section class="match" id="match" aria-labelledby="match-h">
+  <div class="frame">
+    <div class="player up">
+      <video id="ad" src="/assets/tinted-ad.mp4?v=2" poster="/assets/tinted-ad-poster.webp?v=2" autoplay muted loop playsinline preload="metadata" aria-label="Tinted ad: a match from tinted photo to reveal"></video>
+      <button class="sound" id="sound" type="button" aria-pressed="false">
+        <svg id="snd-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m22 9-6 6M16 9l6 6"/></svg>
+        <svg id="snd-on" hidden viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+        <span id="snd-t">Sound on</span>
+      </button>
+    </div>
+    <div>
+      <h2 id="match-h" class="up">Three stages. No swiping.</h2>
+      <p class="say up">No feed of a hundred faces. One person, three stages, and you both choose to keep going at each one.</p>
+      <ol class="stages">
+        <li class="up"><h3>Glimpse</h3><p>A first name, an age, their town, one line about them and a photo behind tinted glass.</p></li>
+        <li class="up"><h3>Chat</h3><p>After the duel, if you both keep going, messages open and you play a second round.</p></li>
+        <li class="up"><h3>Reveal</h3><p>Keep going again and you see each other properly: every photo, every answer.</p></li>
+      </ol>
     </div>
   </div>
 </section>
 
-<footer>
-  <div class="wrap">
-    <span>© Tinted · <a href="mailto:hello@playtinted.com">hello@playtinted.com</a></span>
-    <nav aria-label="Legal">
-      <a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/delete-account.html">Delete account</a><a href="/app/">Sign in</a>
-    </nav>
+<section class="screens" aria-labelledby="screens-h">
+  <div class="frame">
+    <h2 id="screens-h" class="up">What you'll actually see.</h2>
+    <div class="shots">
+      <figure class="up"><div class="img"><img src="/assets/step-matched.webp" alt="A new match with a tinted photo" loading="lazy"></div><figcaption><b>Your match</b>Tinted, until you've played.</figcaption></figure>
+      <figure class="up"><div class="img"><img src="/assets/step-play.webp" alt="The bubble duel freeing hearts" loading="lazy"></div><figcaption><b>The duel</b>Cascades free hearts. Hearts clear the photo.</figcaption></figure>
+      <figure class="up"><div class="img"><img src="/assets/step-result.webp" alt="The result of a close duel" loading="lazy"></div><figcaption><b>The result</b>Win or lose, you both decide what's next.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="safe" id="safety" aria-labelledby="safe-h">
+  <div class="frame">
+    <div>
+      <h2 id="safe-h" class="up">One person at a time.</h2>
+      <p class="say up">You're in control the whole way. Nobody sees your full photos until you've both chosen to keep going, twice, and either of you can stop at any point. The match just ends quietly.</p>
+    </div>
+    <ul class="rules">
+      <li class="up"><b>Adults only</b>Tinted is for people aged 18 and over.</li>
+      <li class="up"><b>Report or block</b>From any match or chat, in two taps.</li>
+      <li class="up"><b>Leave any time</b>Delete your account from settings and your profile, photos and messages go with it.</li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<footer class="close" aria-labelledby="close-h">
+  <div class="frame">
+    <div class="ask">
+      <h2 id="close-h" class="up">Your next date is ninety seconds away.</h2>
+      <div class="go up"><a class="btn" href="/app/">Play now</a><span class="store">Coming soon to Google Play</span></div>
+    </div>
+    <p class="giant" aria-hidden="true">Tinted</p>
+    <div class="foot">
+      <span>© Tinted · <a href="mailto:hello@playtinted.com">hello@playtinted.com</a></span>
+      <nav aria-label="Legal"><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/delete-account.html">Delete account</a><a href="/app/">Sign in</a></nav>
+    </div>
   </div>
 </footer>
 
 <script>
-  // Reveal sections as they scroll into view.
-  const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: 0.12 });
-  document.querySelectorAll(".rv").forEach((el, i) => { el.style.transitionDelay = (i % 4) * 70 + "ms"; io.observe(el); });
-  // Sound toggle for the ad (browsers only allow sound after a tap).
-  const ad = document.getElementById("ad"), btn = document.getElementById("sound");
-  btn.addEventListener("click", () => {
-    ad.muted = !ad.muted; if (!ad.muted) { ad.currentTime = 0; ad.play(); }
-    btn.textContent = ad.muted ? "🔇 Tap for sound" : "🔊 Sound on"; btn.setAttribute("aria-pressed", String(!ad.muted));
+document.documentElement.classList.add("js");
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// Entrances: each part of a section rises in turn, once.
+const io = new IntersectionObserver((es) => es.forEach((e) => {
+  if (!e.isIntersecting) return;
+  const sibs = [...e.target.parentElement.querySelectorAll(":scope > .up")];
+  e.target.style.transitionDelay = Math.max(0, sibs.indexOf(e.target)) * 80 + "ms";
+  e.target.classList.add("in"); io.unobserve(e.target);
+}), { threshold: 0.15, rootMargin: "0px 0px -6% 0px" });
+document.querySelectorAll(".up").forEach((el) => io.observe(el));
+
+// Nav turns solid once you scroll.
+const bar = document.getElementById("bar");
+const onScroll = () => bar.classList.toggle("solid", scrollY > 30);
+addEventListener("scroll", onScroll, { passive: true }); onScroll();
+
+// The live thing: pop hearts, learn facts, clear the photo.
+const FACTS = [
+  ["Job", "Architect, loves a project"], ["Sunday", "Car boot sale, then a roast"],
+  ["Coffee", "Flat white, oat milk, no shame"], ["Secret skill", "Unbeatable at Connect 4"],
+  ["Last trip", "Lisbon, ate too many pastéis"], ["Looking for", "Someone who'll play back"],
+];
+const STATES = ["Tinted", "Tinted", "Clearing", "Clearing", "Almost clear", "Almost clear", "Clear"];
+const glass = document.getElementById("glass"), hearts = document.getElementById("hearts"), facts = document.getElementById("facts");
+const state = document.getElementById("state"), hint = document.getElementById("hint");
+const heartSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.1C.9 8.6 2.9 5 6.4 5c2.1 0 3.5 1.2 4.3 2.4h2.6C14.1 6.2 15.5 5 17.6 5c3.5 0 5.5 3.6 4 6.9C19.5 16.4 12 21 12 21z"/></svg>';
+facts.innerHTML = FACTS.map(([k, v]) => `<li><span class="k">${k}</span><span class="v">${v}</span></li>`).join("");
+let popped = 0;
+FACTS.forEach((f, i) => {
+  const b = document.createElement("button");
+  b.className = "heart"; b.type = "button"; b.innerHTML = heartSvg; b.setAttribute("aria-label", `Pop heart ${i + 1}: reveal ${f[0].toLowerCase()}`);
+  b.addEventListener("click", () => {
+    if (b.classList.contains("done")) return;
+    b.classList.add("done"); b.disabled = true; popped++;
+    facts.children[popped - 1].classList.add("on");
+    glass.style.setProperty("--clear", (popped / FACTS.length).toFixed(3));
+    state.textContent = STATES[popped];
+    hint.textContent = popped < FACTS.length ? `${FACTS.length - popped} to go.` : "That's Jake. Yours is waiting.";
+    if (!reduce && navigator.vibrate) navigator.vibrate(12);
   });
+  hearts.appendChild(b);
+});
+
+// Sound for the ad (browsers only allow it after a tap).
+const ad = document.getElementById("ad"), sb = document.getElementById("sound");
+sb.addEventListener("click", () => {
+  ad.muted = !ad.muted; if (!ad.muted) { ad.currentTime = 0; ad.play(); }
+  document.getElementById("snd-off").hidden = !ad.muted; document.getElementById("snd-on").hidden = ad.muted;
+  document.getElementById("snd-t").textContent = ad.muted ? "Sound on" : "Sound off";
+  sb.setAttribute("aria-pressed", String(!ad.muted));
+});
 </script>
 </body>
 </html>
