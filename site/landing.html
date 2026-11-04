@@ -17,6 +17,7 @@
 <link rel="apple-touch-icon" href="/src/brand/icons/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Gloock&display=swap">
+<link rel="preload" as="video" href="/assets/duel-loop.mp4">
 <script>
   // Already signed in on this device? Go straight to the app (add ?home to stay here).
   try {
@@ -25,7 +26,7 @@
 </script>
 <style>
 :root{
-  --night:#160b26; --night-2:#1f1035; --night-3:#2a1646;
+  --night:#160b26; --night-2:#1f1035; --night-3:#2c1748;
   --ink:#fff2f8; --soft:#d9c4e6; --rose:#ff4fa3; --rose-ink:#2b0a1c; --gold:#ffc857;
   --display:"Gloock",Georgia,serif; --text:"Geist",system-ui,-apple-system,"Segoe UI",sans-serif;
   --out:cubic-bezier(.16,1,.3,1); --margin:clamp(20px,4vw,56px); --gap:clamp(110px,14vw,200px);
@@ -37,156 +38,199 @@ body{margin:0;font:400 18px/1.55 var(--text);-webkit-font-smoothing:antialiased;
 img,video,svg{display:block;max-width:100%}
 a{color:inherit;text-underline-offset:.22em;text-decoration-thickness:1px}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
-.frame{padding-inline:var(--margin);max-width:1520px;margin-inline:auto}
+.frame{padding-inline:var(--margin);max-width:1520px;margin-inline:auto;width:100%;position:relative;z-index:2}
+#fizz{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.ticker,.bar{position:relative;z-index:3}
+.bar{position:fixed}
 h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance}
 p{margin:0;text-wrap:pretty}
+.big{font-size:clamp(46px,6vw,96px);line-height:.94;letter-spacing:-.03em}
 
-/* Buttons: flat, pill, one fill */
-.btn{display:inline-flex;align-items:center;gap:10px;min-height:54px;padding:0 28px;border-radius:999px;border:0;font:600 17px var(--text);text-decoration:none;cursor:pointer;
-  background:var(--rose);color:var(--rose-ink);transition:transform .25s var(--out),background-color .2s}
-.btn:hover{background:#ff6cb4}
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 28px;border-radius:999px;border:0;font:600 17px var(--text);text-decoration:none;cursor:pointer;
+  background:var(--rose);color:var(--rose-ink);transition:transform .3s var(--out),background-color .2s}
+.btn:hover{background:#ff6cb4;transform:translateY(-2px)}
 .btn:active{transform:scale(.97)}
-.btn svg{width:18px;height:18px}
-.textlink{font-weight:600;text-decoration:underline;text-decoration-color:rgba(255,242,248,.35)}
+.btn svg{width:18px;height:18px;transition:transform .3s var(--out)}
+.btn:hover svg{transform:translateX(4px)}
+.textlink{font-weight:600;text-decoration:underline;text-decoration-color:rgba(255,242,248,.4)}
 .textlink:hover{text-decoration-color:var(--ink)}
 
-/* Nav: plain bar */
-.bar{position:fixed;inset:0 0 auto;z-index:30;transition:background-color .3s}
+/* Bar */
+.bar{position:fixed;inset:0 0 auto;z-index:40;transition:background-color .35s}
 .bar.solid{background:var(--night)}
 .bar .frame{display:flex;align-items:center;gap:36px;height:76px}
-.word{display:flex;align-items:center;gap:12px;font:22px var(--display);text-decoration:none}
+.word{display:flex;align-items:center;gap:12px;font:23px var(--display);text-decoration:none}
 .word img{width:36px;height:36px;border-radius:10px}
 .bar nav{display:flex;gap:30px;margin-left:auto;font-size:16px}
-.bar nav a{text-decoration:none;color:var(--soft)}
+.bar nav a{text-decoration:none;color:var(--soft);transition:color .2s}
 .bar nav a:hover{color:var(--ink)}
 .bar .btn{min-height:44px;padding:0 20px;font-size:15.5px}
 @media (max-width:760px){.bar nav{display:none}.bar .btn{margin-left:auto}}
 
-/* Hero */
-.hero{min-height:100svh;padding-top:130px;padding-bottom:80px;display:grid;align-items:center}
-.hero .frame{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(40px,6vw,110px);align-items:center;width:100%}
-.hero h1{font-size:clamp(68px,9.6vw,156px);line-height:.88;letter-spacing:-.035em}
+/* Hero: the duel, playing behind tinted glass */
+.hero{position:relative;min-height:100svh;display:grid;align-items:center;padding:120px 0 90px;overflow:hidden}
+.bg{position:absolute;inset:-6%;z-index:0;overflow:hidden}
+.bg{display:flex;gap:22px;justify-content:center;align-items:center;transform:rotate(-9deg) scale(1.25)}
+@media (max-width:760px){.bg video{height:46%!important}.bg{gap:14px}}
+.bg video{flex:none;height:64%;width:auto;aspect-ratio:540/987;object-fit:cover;border-radius:28px;transform:scale(var(--z,1.04)) translateY(var(--ty,0px));filter:blur(var(--b,1.2px)) saturate(1.2);transition:filter .1s linear}
+.bg video:nth-child(even){--ty:calc(var(--sh,0px) * -1);margin-top:12%}
+.bg video:nth-child(odd){--ty:var(--sh,0px)}
+.hero::before{content:"";position:absolute;inset:0;z-index:0;background:rgba(22,11,38,var(--veil,.76))}
+.hero::after{content:"";position:absolute;inset:auto 0 0;height:30%;z-index:0;background:linear-gradient(to top,var(--night),rgba(22,11,38,0))}
+.hero .frame{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:clamp(40px,6vw,110px);align-items:center}
+.hero h1{font-size:clamp(72px,10.4vw,172px);line-height:.86;letter-spacing:-.04em}
 .hero .say{font-size:clamp(19px,1.5vw,23px);max-width:28em;margin-top:36px}
 .hero .go{display:flex;flex-wrap:wrap;align-items:center;gap:14px 28px;margin-top:40px}
 .hero .note{margin-top:26px;font-size:15.5px;color:var(--soft)}
 
-/* The live thing: a real profile behind tinted glass */
-.glass{position:relative}
-.portrait{position:relative;aspect-ratio:4/5;max-height:min(58vh,620px);width:100%;overflow:hidden;border-radius:28px;background:var(--night-2)}
-.portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(calc(1.14 - var(--clear) * .14));
+/* Split-text: each word rises out of its own mask */
+.split .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em}
+.split .w>i{display:inline-block;font-style:normal;transform:translateY(105%);transition:transform 1.1s var(--out);transition-delay:calc(var(--i) * 70ms + var(--d,0ms))}
+.split.in .w>i{transform:none}
+
+/* The live thing: a profile behind tinted glass */
+.glass{position:relative;padding:14px;border-radius:34px;background:var(--night);box-shadow:0 40px 90px -30px rgba(0,0,0,.75)}
+.portrait{position:relative;aspect-ratio:4/4.3;overflow:hidden;border-radius:24px;background:var(--night-2)}
+.portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 25%;transform:scale(calc(1.14 - var(--clear) * .14));
   filter:blur(calc((1 - var(--clear)) * 26px)) saturate(calc(.55 + var(--clear) * .45)) brightness(calc(.72 + var(--clear) * .28));transition:filter 1.1s var(--out),transform 1.4s var(--out)}
 .portrait .tint{position:absolute;inset:0;background:#7a2a8c;mix-blend-mode:color;opacity:calc((1 - var(--clear)) * .85);transition:opacity 1.1s var(--out)}
-.portrait .who{position:absolute;left:0;right:0;bottom:0;padding:60px 24px 22px;display:flex;align-items:end;justify-content:space-between;gap:12px;
-  background:linear-gradient(to top,rgba(22,11,38,.85),rgba(22,11,38,0))}
-.who b{font:400 clamp(30px,2.6vw,40px)/1 var(--display)}
+.portrait .who{position:absolute;inset:auto 0 0;padding:60px 20px 18px;display:flex;align-items:end;justify-content:space-between;gap:12px;background:linear-gradient(to top,rgba(22,11,38,.85),rgba(22,11,38,0))}
+.who b{font:400 clamp(28px,2.4vw,38px)/1 var(--display)}
 .who span{display:block;font-size:15px;color:var(--soft);margin-top:6px}
 .state{font-size:14px;font-weight:600;padding:8px 14px;border-radius:999px;background:var(--night);white-space:nowrap}
-.pops{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:22px}
-.pops p{font-size:15.5px;color:var(--soft)}
-.hearts{display:flex;gap:8px}
-.heart{width:46px;height:46px;border-radius:50%;border:0;padding:0;cursor:pointer;position:relative;
-  background:radial-gradient(circle at 34% 30%,#fff 0 7%,#ffd1e8 18%,#ff74b9 46%,#c2187a 100%);
-  transition:transform .35s var(--out),opacity .35s,filter .35s}
-.heart svg{position:absolute;inset:13px;fill:#fff}
+.pops{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:16px 6px 0}
+.pops p{font-size:15px;color:var(--soft)}
+.hearts{display:flex;gap:7px}
+.heart{width:42px;height:42px;border-radius:50%;border:0;padding:0;cursor:pointer;position:relative;
+  background:radial-gradient(circle at 34% 30%,#fff 0 7%,#ffd1e8 18%,#ff74b9 46%,#c2187a 100%);transition:transform .35s var(--out),opacity .35s,filter .35s}
+.heart svg{position:absolute;inset:12px;fill:#fff}
 .heart:hover{transform:translateY(-3px) scale(1.06)}
-.heart:active{transform:scale(.9)}
-.heart.done{opacity:.22;filter:grayscale(1);transform:scale(.82);cursor:default}
-.facts{list-style:none;margin:18px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.facts li{padding:12px 16px 13px;border-radius:16px;background:var(--night-2);font-size:15.5px;line-height:1.35;min-height:72px}
-.facts .k{display:block;font-size:13.5px;color:var(--soft);margin-bottom:3px}
-.facts .v{transition:filter .6s var(--out),opacity .6s}
-.facts li:not(.on) .v{filter:blur(6px);opacity:.45;user-select:none}
-.facts li.on{background:var(--night-3)}
-.glass .cap{margin-top:14px;font-size:14px;color:var(--soft)}
-@media (max-width:980px){.hero{padding-top:110px}.hero .frame{grid-template-columns:1fr}.glass{max-width:520px}}
-@media (max-width:420px){.heart{width:40px;height:40px}.heart svg{inset:11px}.facts{grid-template-columns:1fr}.facts li{min-height:0}}
+.heart.done{opacity:.2;filter:grayscale(1);transform:scale(.8);cursor:default}
+.heart .burst{position:absolute;inset:0;pointer-events:none}
+.heart .burst i{position:absolute;left:50%;top:50%;width:7px;height:7px;margin:-3.5px;border-radius:50%;background:var(--rose);animation:fly .7s var(--out) forwards}
+@keyframes fly{to{transform:translate(var(--x),var(--y)) scale(.2);opacity:0}}
+.fact{margin:12px 6px 4px;min-height:48px;font-size:16px;line-height:1.35}
+.fact .k{display:block;font-size:13.5px;color:var(--soft)}
+.fact .v{display:inline-block;animation:rise .6s var(--out)}
+@keyframes rise{from{opacity:0;transform:translateY(10px);filter:blur(6px)}}
+.glass .cap{margin:8px 6px 2px;font-size:13.5px;color:var(--soft)}
+@media (max-width:980px){.hero .frame{grid-template-columns:1fr}.glass{max-width:460px}}
+@media (max-width:420px){.heart{width:38px;height:38px}.heart svg{inset:10px}.hearts{gap:5px}}
 
-/* Rose field: the duel */
-.field{background:var(--rose);color:var(--rose-ink);margin-top:var(--gap)}
-.field .frame{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:clamp(40px,6vw,100px);align-items:center;padding-block:clamp(90px,11vw,170px)}
-.field h2{font-size:clamp(52px,7vw,112px);line-height:.92;letter-spacing:-.03em}
-.field .lede{font-size:clamp(19px,1.5vw,22px);max-width:30em;margin-top:28px}
-.field .lines{margin-top:52px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
-.field .lines b{display:block;font:400 30px/1 var(--display);margin-bottom:10px}
-.field .lines p{font-size:16.5px}
-.clip{aspect-ratio:9/16;max-height:78vh;justify-self:end;width:100%;max-width:400px;border-radius:28px;overflow:hidden;background:var(--night)}
+/* Ticker of reveals */
+.ticker{overflow:hidden;padding:26px 0;background:var(--night)}
+.ticker .row{display:flex;width:max-content;animation:slide 48s linear infinite}
+.ticker:hover .row{animation-play-state:paused}
+.ticker span{display:flex;align-items:center;gap:28px;padding-right:28px;font:400 clamp(26px,2.6vw,40px)/1 var(--display);white-space:nowrap;color:var(--soft)}
+.ticker span b{font-weight:400;color:var(--ink)}
+.ticker svg{width:22px;height:22px;fill:var(--rose);flex:none}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* Statement that comes into focus as you scroll */
+.focus{padding-top:var(--gap)}
+.focus p{font:400 clamp(38px,5.2vw,84px)/1.04 var(--display);letter-spacing:-.025em;max-width:16em}
+.focus .fw{display:inline-block;transition:filter .3s linear,opacity .3s linear}
+.focus .fw.hot{color:var(--rose)}
+
+/* Rose field with the scroll countdown */
+.field{margin-top:var(--gap);background:var(--rose);color:var(--rose-ink);position:relative}
+.field .track{height:220vh}
+.field .stick{position:sticky;top:0;z-index:2;height:100svh;display:grid;align-items:center;overflow:hidden}
+.field .frame{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(30px,6vw,100px);align-items:center}
+.clock{font:400 clamp(150px,24vw,380px)/.8 var(--display);letter-spacing:-.06em;font-variant-numeric:tabular-nums;display:flex;align-items:baseline}
+.clock small{font-size:.28em;letter-spacing:-.02em;margin-left:.12em}
+.field h2{margin-top:28px}
+.field .lede{font-size:clamp(18px,1.4vw,21px);max-width:30em;margin-top:22px}
+.clip{aspect-ratio:9/16;max-height:80svh;justify-self:end;width:100%;max-width:380px;border-radius:30px;overflow:hidden;background:var(--night);transform:rotate(var(--r,0deg));box-shadow:0 40px 80px -30px rgba(43,10,28,.6)}
 .clip video{width:100%;height:100%;object-fit:cover;object-position:top}
-@media (max-width:900px){.field .frame{grid-template-columns:1fr}.clip{justify-self:start;max-width:360px}.field .lines{grid-template-columns:1fr}}
+@media (max-width:900px){
+  .field .track{height:auto}.field .stick{position:relative;height:auto;padding-block:100px}
+  .field .frame{grid-template-columns:1fr}.clip{justify-self:start;max-width:320px;max-height:none}
+}
 
-/* A whole match */
+/* Pinned stages: the phone stays, the screens change */
+.stages{padding-top:var(--gap)}
+.stages .track{height:300vh;position:relative}
+.stages .stick{position:sticky;top:0;z-index:2;height:100svh;display:grid;align-items:center}
+.stages .frame{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,7vw,120px);align-items:center}
+.steps{list-style:none;margin:46px 0 0;padding:0;display:grid;gap:8px}
+.steps li{padding:20px 0;transition:opacity .5s var(--out),transform .5s var(--out);opacity:.28}
+.steps li.on{opacity:1;transform:translateX(10px)}
+.steps h3{font-size:clamp(38px,3.8vw,60px);line-height:1}
+.steps p{margin-top:10px;font-size:18px;max-width:26em;color:var(--soft)}
+.phone{justify-self:center;width:min(380px,82vw);aspect-ratio:9/18.5;border-radius:48px;padding:12px;background:#0c0616;box-shadow:0 50px 100px -40px rgba(0,0,0,.85)}
+.phone .scr{position:relative;width:100%;height:100%;border-radius:38px;overflow:hidden;background:var(--night)}
+.phone img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;opacity:0;transform:scale(1.06);filter:blur(10px);transition:opacity .7s var(--out),transform .9s var(--out),filter .7s var(--out)}
+.phone img.on{opacity:1;transform:none;filter:none}
+@media (max-width:900px){
+  .stages .track{height:auto}.stages .stick{position:relative;height:auto}
+  .stages .frame{grid-template-columns:1fr}.steps li{opacity:1}.steps li.on{transform:none}
+  .phone{display:none}
+}
+
+/* Watch a whole match */
 .match{padding-top:var(--gap)}
-.match .frame{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(40px,7vw,120px);align-items:center}
-.player{position:relative;aspect-ratio:9/16;width:100%;max-width:420px;border-radius:30px;overflow:hidden;background:#000}
+.match .frame{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(40px,7vw,120px);align-items:center}
+.match .say{margin-top:24px;max-width:28em;color:var(--soft)}
+.player{position:relative;aspect-ratio:9/16;width:100%;max-width:420px;justify-self:end;border-radius:30px;overflow:hidden;background:#000}
 .player video{width:100%;height:100%;object-fit:cover}
 .sound{position:absolute;left:16px;bottom:16px;display:flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:999px;border:0;
   background:var(--night);color:var(--ink);font:600 14.5px var(--text);cursor:pointer;box-shadow:0 8px 24px -8px rgba(0,0,0,.6)}
 .sound svg{width:18px;height:18px}
-.match h2{font-size:clamp(44px,5.4vw,84px);line-height:.95;letter-spacing:-.025em}
-.match .say{margin-top:24px;max-width:30em;color:var(--soft)}
-.stages{list-style:none;margin:56px 0 0;padding:0}
-.stages li{display:grid;grid-template-columns:minmax(120px,.34fr) 1fr;gap:24px;padding:26px 0;align-items:baseline}
-.stages li+li{border-top:2px solid var(--night-3)}
-.stages h3{font-size:clamp(32px,3vw,46px);line-height:1}
-.stages p{font-size:18px}
-@media (max-width:900px){.match .frame{grid-template-columns:1fr}.player{max-width:400px}.stages li{grid-template-columns:1fr;gap:8px}}
-
-/* Screens */
-.screens{padding-top:var(--gap)}
-.screens h2{font-size:clamp(44px,5.4vw,84px);line-height:.95;letter-spacing:-.025em;max-width:12em}
-.shots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2.4vw,36px);margin-top:64px;align-items:start}
-.shots figure{margin:0}
-.shots figure:nth-child(2){margin-top:clamp(40px,7vw,110px)}
-.shots figure:nth-child(3){margin-top:clamp(20px,3.5vw,55px)}
-.shots .img{aspect-ratio:540/700;border-radius:24px;overflow:hidden;background:var(--night-2)}
-.shots img{width:100%;height:100%;object-fit:cover;object-position:top}
-.shots figcaption{margin-top:18px;font-size:17px}
-.shots figcaption b{font:400 26px var(--display);display:block;margin-bottom:4px}
-@media (max-width:760px){.shots{grid-template-columns:1fr;max-width:440px}.shots figure:nth-child(n){margin-top:0}}
+@media (max-width:900px){.match .frame{grid-template-columns:1fr}.player{justify-self:start;max-width:380px}}
 
 /* Safety */
 .safe{padding-top:var(--gap)}
 .safe .frame{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,7vw,120px)}
-.safe h2{font-size:clamp(44px,5.4vw,84px);line-height:.95;letter-spacing:-.025em}
 .safe .say{margin-top:24px;color:var(--soft);max-width:28em}
 .rules{list-style:none;margin:0;padding:0;display:grid;gap:14px;align-content:start}
-.rules li{background:var(--night-2);border-radius:20px;padding:22px 24px;font-size:18px}
-.rules b{display:block;font:400 26px/1.1 var(--display);margin-bottom:6px}
+.rules li{background:var(--night-2);border-radius:22px;padding:24px 26px;font-size:18px;transition:background-color .3s,transform .4s var(--out)}
+.rules li:hover{background:var(--night-3);transform:translateX(6px)}
+.rules b{display:block;font:400 28px/1.1 var(--display);margin-bottom:6px}
 @media (max-width:900px){.safe .frame{grid-template-columns:1fr}}
 
 /* Close */
-.close{margin-top:var(--gap);background:var(--night-2);padding-block:clamp(90px,10vw,150px) 50px}
+.close{margin-top:var(--gap);background:var(--night-2);padding-block:clamp(90px,10vw,150px) 50px;overflow:hidden}
 .close .ask{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:30px}
-.close h2{font-size:clamp(44px,5.4vw,84px);line-height:.95;letter-spacing:-.025em;max-width:11em}
+.close h2{max-width:11em}
 .close .go{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
-.store{display:inline-flex;align-items:center;min-height:54px;padding:0 22px;border-radius:999px;background:var(--night);color:var(--soft);font-size:15.5px}
-.giant{font:400 clamp(110px,30.5vw,470px)/.8 var(--display);letter-spacing:-.05em;margin:clamp(70px,9vw,130px) 0 0 -.04em;color:var(--ink);white-space:nowrap}
+.store{display:inline-flex;align-items:center;min-height:56px;padding:0 22px;border-radius:999px;background:var(--night);color:var(--soft);font-size:15.5px}
+.giant{display:flex;font:400 clamp(110px,30.5vw,470px)/.8 var(--display);letter-spacing:-.05em;margin:clamp(70px,9vw,130px) 0 0 -.04em;white-space:nowrap}
+.giant i{font-style:normal;display:inline-block;filter:blur(calc(var(--t,1) * 18px));opacity:calc(1 - var(--t,1) * .75);color:var(--ink)}
 .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px 30px;margin-top:40px;font-size:15.5px;color:var(--soft)}
 .foot nav{display:flex;flex-wrap:wrap;gap:22px}
 .foot a{text-decoration:none}.foot a:hover{color:var(--ink)}
 
-/* Motion: content is visible by default; script adds the entrance */
-.js .up{opacity:0;transform:translateY(26px)}
-.js .up.in{opacity:1;transform:none;transition:opacity .9s var(--out),transform .9s var(--out)}
+/* Entrances (content visible without script) */
+.js .up{opacity:0;transform:translateY(28px)}
+.js .up.in{opacity:1;transform:none;transition:opacity 1s var(--out),transform 1s var(--out)}
 @media (prefers-reduced-motion:reduce){
   .js .up{opacity:1;transform:none}
-  .portrait img,.portrait .tint,.heart,.facts .v{transition:none}
+  .split .w>i{transform:none!important;transition:none}
+  .ticker .row{animation:none}
+  .bg video{filter:blur(1.2px)}
+  .focus .fw{filter:none!important;opacity:1!important}
+  .giant i{filter:none!important;opacity:1!important}
 }
 </style>
 </head>
 <body>
+<canvas id="fizz" aria-hidden="true"></canvas>
 <header class="bar" id="bar">
   <div class="frame">
     <a class="word" href="/?home"><img src="/assets/logo.webp" alt="">Tinted</a>
-    <nav aria-label="Sections"><a href="#duel">The duel</a><a href="#match">How it works</a><a href="#safety">Safety</a></nav>
+    <nav aria-label="Sections"><a href="#duel">The duel</a><a href="#stages">How it works</a><a href="#safety">Safety</a></nav>
     <a class="btn" href="/app/">Play now</a>
   </div>
 </header>
 
 <main>
-<section class="hero" aria-labelledby="title">
+<section class="hero" id="hero" aria-labelledby="title">
+  <div class="bg" id="bg" aria-hidden="true"><video src="/assets/duel-loop.mp4" poster="/assets/duel-loop.webp" autoplay muted loop playsinline data-off="0"></video><video src="/assets/duel-loop.mp4" poster="/assets/duel-loop.webp" autoplay muted loop playsinline data-off="3.1"></video><video src="/assets/duel-loop.mp4" poster="/assets/duel-loop.webp" autoplay muted loop playsinline data-off="1.4"></video><video src="/assets/duel-loop.mp4" poster="/assets/duel-loop.webp" autoplay muted loop playsinline data-off="4.6"></video><video src="/assets/duel-loop.mp4" poster="/assets/duel-loop.webp" autoplay muted loop playsinline data-off="2.2"></video><video src="/assets/duel-loop.mp4" poster="/assets/duel-loop.webp" autoplay muted loop playsinline data-off="5.4"></video><video src="/assets/duel-loop.mp4" poster="/assets/duel-loop.webp" autoplay muted loop playsinline data-off="0.7"></video></div>
   <div class="frame">
     <div>
-      <h1 id="title" class="up">Looks can wait.</h1>
+      <h1 id="title" class="split" data-split>Looks can wait.</h1>
       <p class="say up">Tinted is the dating app where you play before you see. You're matched with one person, you both take on the same 90-second bubble board, and every heart you pop clears a little more of their photo.</p>
       <div class="go up">
         <a class="btn" href="/app/">Play in your browser
@@ -203,32 +247,64 @@ p{margin:0;text-wrap:pretty}
         <div class="who"><div><b>Jake, 29</b><span>London</span></div><span class="state" id="state" aria-live="polite">Tinted</span></div>
       </div>
       <div class="pops">
-        <p id="hint">Pop a heart to learn something.</p>
+        <p id="hint">Pop a heart.</p>
         <div class="hearts" id="hearts" role="group" aria-label="Hearts to pop"></div>
       </div>
-      <ul class="facts" id="facts"></ul>
-      <p class="cap">An example profile. On Tinted the hearts come from the duel.</p>
+      <p class="fact" id="fact" aria-live="polite"><span class="k">Each heart reveals something</span><span class="v">and clears the photo a little.</span></p>
+      <p class="cap">Example profile.</p>
     </div>
   </div>
 </section>
 
+<div class="ticker" aria-hidden="true"><div class="row" id="row"></div></div>
+
+<section class="focus" aria-label="Why Tinted">
+  <div class="frame"><p id="focus">Every other app asks you to judge a face in half a second. Tinted asks how they play.</p></div>
+</section>
+
 <section class="field" id="duel" aria-labelledby="duel-h">
-  <div class="frame">
-    <div>
-      <h2 id="duel-h" class="up">Ninety seconds. Same board.</h2>
-      <p class="lede up">You and your match play the identical bubble board, head to head. The better you play, the more of them you see.</p>
-      <div class="lines">
-        <div class="up"><b>Same seed</b><p>You both get the identical board, so it's skill, not luck.</p></div>
-        <div class="up"><b>Hearts</b><p>Free one and you learn a fact. Every heart clears their photo a little.</p></div>
-        <div class="up"><b>Live</b><p>Play at the same time and you watch their score climb against yours.</p></div>
+  <div class="track" id="fieldTrack">
+    <div class="stick">
+      <div class="frame">
+        <div>
+          <div class="clock" aria-hidden="true"><span id="clock">90</span><small>s</small></div>
+          <h2 id="duel-h" class="big up">Same board. Head to head.</h2>
+          <p class="lede up">You and your match get the identical bubble board, from the same seed. Free a heart and you learn a fact about them. The better you play, the more of them you see.</p>
+        </div>
+        <div class="clip" id="clip"><video src="/assets/duel-loop.mp4" poster="/assets/duel-loop.webp" autoplay muted loop playsinline preload="metadata" aria-label="A Tinted duel: a cascade frees two hearts"></video></div>
       </div>
     </div>
-    <div class="clip up"><video src="/assets/duel-loop.mp4" poster="/assets/duel-loop.webp" autoplay muted loop playsinline preload="metadata" aria-label="A Tinted duel: a cascade of bubbles frees two hearts"></video></div>
+  </div>
+</section>
+
+<section class="stages" id="stages" aria-labelledby="stages-h">
+  <div class="track" id="stageTrack">
+    <div class="stick">
+      <div class="frame">
+        <div>
+          <h2 id="stages-h" class="big up">Three stages. No swiping.</h2>
+          <ol class="steps" id="steps">
+            <li class="on"><h3>Glimpse</h3><p>A first name, an age, their town, one line about them and a photo behind tinted glass.</p></li>
+            <li><h3>Duel</h3><p>Ninety seconds on the same board. Every heart you free unlocks a fact and clears their photo.</p></li>
+            <li><h3>Reveal</h3><p>Both keep going and chat opens. Keep going again and you see each other properly.</p></li>
+          </ol>
+        </div>
+        <div class="phone" aria-hidden="true"><div class="scr" id="scr">
+          <img class="on" src="/assets/step-matched.webp" alt="">
+          <img src="/assets/step-play.webp" alt="" loading="lazy">
+          <img src="/assets/step-result.webp" alt="" loading="lazy">
+        </div></div>
+      </div>
+    </div>
   </div>
 </section>
 
 <section class="match" id="match" aria-labelledby="match-h">
   <div class="frame">
+    <div>
+      <h2 id="match-h" class="big up">Watch a whole match.</h2>
+      <p class="say up">Eighteen seconds, from a tinted photo to the reveal. Turn the sound on for the pops.</p>
+    </div>
     <div class="player up">
       <video id="ad" src="/assets/tinted-ad.mp4?v=2" poster="/assets/tinted-ad-poster.webp?v=2" autoplay muted loop playsinline preload="metadata" aria-label="Tinted ad: a match from tinted photo to reveal"></video>
       <button class="sound" id="sound" type="button" aria-pressed="false">
@@ -237,33 +313,13 @@ p{margin:0;text-wrap:pretty}
         <span id="snd-t">Sound on</span>
       </button>
     </div>
-    <div>
-      <h2 id="match-h" class="up">Three stages. No swiping.</h2>
-      <p class="say up">No feed of a hundred faces. One person, three stages, and you both choose to keep going at each one.</p>
-      <ol class="stages">
-        <li class="up"><h3>Glimpse</h3><p>A first name, an age, their town, one line about them and a photo behind tinted glass.</p></li>
-        <li class="up"><h3>Chat</h3><p>After the duel, if you both keep going, messages open and you play a second round.</p></li>
-        <li class="up"><h3>Reveal</h3><p>Keep going again and you see each other properly: every photo, every answer.</p></li>
-      </ol>
-    </div>
-  </div>
-</section>
-
-<section class="screens" aria-labelledby="screens-h">
-  <div class="frame">
-    <h2 id="screens-h" class="up">What you'll actually see.</h2>
-    <div class="shots">
-      <figure class="up"><div class="img"><img src="/assets/step-matched.webp" alt="A new match with a tinted photo" loading="lazy"></div><figcaption><b>Your match</b>Tinted, until you've played.</figcaption></figure>
-      <figure class="up"><div class="img"><img src="/assets/step-play.webp" alt="The bubble duel freeing hearts" loading="lazy"></div><figcaption><b>The duel</b>Cascades free hearts. Hearts clear the photo.</figcaption></figure>
-      <figure class="up"><div class="img"><img src="/assets/step-result.webp" alt="The result of a close duel" loading="lazy"></div><figcaption><b>The result</b>Win or lose, you both decide what's next.</figcaption></figure>
-    </div>
   </div>
 </section>
 
 <section class="safe" id="safety" aria-labelledby="safe-h">
   <div class="frame">
     <div>
-      <h2 id="safe-h" class="up">One person at a time.</h2>
+      <h2 id="safe-h" class="big up">One person at a time.</h2>
       <p class="say up">You're in control the whole way. Nobody sees your full photos until you've both chosen to keep going, twice, and either of you can stop at any point. The match just ends quietly.</p>
     </div>
     <ul class="rules">
@@ -278,10 +334,10 @@ p{margin:0;text-wrap:pretty}
 <footer class="close" aria-labelledby="close-h">
   <div class="frame">
     <div class="ask">
-      <h2 id="close-h" class="up">Your next date is ninety seconds away.</h2>
+      <h2 id="close-h" class="big split" data-split>Your next date is ninety seconds away.</h2>
       <div class="go up"><a class="btn" href="/app/">Play now</a><span class="store">Coming soon to Google Play</span></div>
     </div>
-    <p class="giant" aria-hidden="true">Tinted</p>
+    <p class="giant" id="giant" aria-label="Tinted"></p>
     <div class="foot">
       <span>© Tinted · <a href="mailto:hello@playtinted.com">hello@playtinted.com</a></span>
       <nav aria-label="Legal"><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/delete-account.html">Delete account</a><a href="/app/">Sign in</a></nav>
@@ -292,55 +348,181 @@ p{margin:0;text-wrap:pretty}
 <script>
 document.documentElement.classList.add("js");
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const $ = (s) => document.querySelector(s);
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 
-// Entrances: each part of a section rises in turn, once.
+// Offset the wall of duels so each board is at a different moment.
+document.querySelectorAll("#bg video").forEach((v) => { const o = +v.dataset.off; const go = () => { try { v.currentTime = o; } catch (e) {} }; v.readyState ? go() : v.addEventListener("loadedmetadata", go, { once: true }); });
+
+// Split headlines into masked words.
+document.querySelectorAll("[data-split]").forEach((el) => {
+  el.setAttribute("aria-label", el.textContent);
+  el.innerHTML = el.textContent.trim().split(/\s+/).map((w, i) => `<span class="w" aria-hidden="true"><i style="--i:${i}">${w}</i></span>`).join(" ");
+});
+
+// Entrances: parts of a section rise in turn, once.
 const io = new IntersectionObserver((es) => es.forEach((e) => {
   if (!e.isIntersecting) return;
-  const sibs = [...e.target.parentElement.querySelectorAll(":scope > .up")];
-  e.target.style.transitionDelay = Math.max(0, sibs.indexOf(e.target)) * 80 + "ms";
+  const sibs = [...e.target.parentElement.children].filter((c) => c.classList.contains("up"));
+  e.target.style.transitionDelay = Math.max(0, sibs.indexOf(e.target)) * 90 + "ms";
   e.target.classList.add("in"); io.unobserve(e.target);
 }), { threshold: 0.15, rootMargin: "0px 0px -6% 0px" });
-document.querySelectorAll(".up").forEach((el) => io.observe(el));
+document.querySelectorAll(".up, .split").forEach((el) => io.observe(el));
+requestAnimationFrame(() => $("#title").classList.add("in"));
 
-// Nav turns solid once you scroll.
-const bar = document.getElementById("bar");
-const onScroll = () => bar.classList.toggle("solid", scrollY > 30);
-addEventListener("scroll", onScroll, { passive: true }); onScroll();
+// Ticker of real reveals.
+const HEART = '<svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.6-9.1C.9 8.6 2.9 5 6.4 5c2.1 0 3.5 1.2 4.3 2.4h2.6C14.1 6.2 15.5 5 17.6 5c3.5 0 5.5 3.6 4 6.9C19.5 16.4 12 21 12 21z"/></svg>';
+const TICK = [["Sunday", "car boot sale, then a roast"], ["Coffee", "flat white, oat milk"], ["Secret skill", "unbeatable at Connect 4"], ["Last trip", "Lisbon, too many pastéis"],
+  ["Looking for", "someone who'll play back"], ["Guilty pleasure", "Bake Off, every series"], ["Dream date", "street food and a pub quiz"], ["Can't live without", "a sea swim in summer"]];
+const once = TICK.map(([k, v]) => `<span>${HEART}<b>${k}</b> ${v}</span>`).join("");
+$("#row").innerHTML = once + once;
 
-// The live thing: pop hearts, learn facts, clear the photo.
-const FACTS = [
-  ["Job", "Architect, loves a project"], ["Sunday", "Car boot sale, then a roast"],
-  ["Coffee", "Flat white, oat milk, no shame"], ["Secret skill", "Unbeatable at Connect 4"],
-  ["Last trip", "Lisbon, ate too many pastéis"], ["Looking for", "Someone who'll play back"],
-];
+// Focus statement: words come into focus as you scroll.
+const fp = $("#focus"); const fwords = fp.textContent.trim().split(/\s+/);
+fp.innerHTML = fwords.map((w) => `<span class="fw${/^(play|play\.)$/i.test(w) || w === "play." ? " hot" : ""}">${w}</span>`).join(" ");
+const fws = [...fp.querySelectorAll(".fw")];
+
+// The live thing.
+const FACTS = [["Job", "Architect, loves a project"], ["Sunday", "Car boot sale, then a roast"], ["Coffee", "Flat white, oat milk, no shame"],
+  ["Secret skill", "Unbeatable at Connect 4"], ["Last trip", "Lisbon, ate too many pastéis"], ["Looking for", "Someone who'll play back"]];
 const STATES = ["Tinted", "Tinted", "Clearing", "Clearing", "Almost clear", "Almost clear", "Clear"];
-const glass = document.getElementById("glass"), hearts = document.getElementById("hearts"), facts = document.getElementById("facts");
-const state = document.getElementById("state"), hint = document.getElementById("hint");
-const heartSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.1C.9 8.6 2.9 5 6.4 5c2.1 0 3.5 1.2 4.3 2.4h2.6C14.1 6.2 15.5 5 17.6 5c3.5 0 5.5 3.6 4 6.9C19.5 16.4 12 21 12 21z"/></svg>';
-facts.innerHTML = FACTS.map(([k, v]) => `<li><span class="k">${k}</span><span class="v">${v}</span></li>`).join("");
 let popped = 0;
 FACTS.forEach((f, i) => {
   const b = document.createElement("button");
-  b.className = "heart"; b.type = "button"; b.innerHTML = heartSvg; b.setAttribute("aria-label", `Pop heart ${i + 1}: reveal ${f[0].toLowerCase()}`);
+  b.className = "heart"; b.type = "button"; b.innerHTML = HEART.replace("<svg", '<svg aria-hidden="true"');
+  b.setAttribute("aria-label", `Pop heart ${i + 1}`);
   b.addEventListener("click", () => {
-    if (b.classList.contains("done")) return;
-    b.classList.add("done"); b.disabled = true; popped++;
-    facts.children[popped - 1].classList.add("on");
-    glass.style.setProperty("--clear", (popped / FACTS.length).toFixed(3));
-    state.textContent = STATES[popped];
-    hint.textContent = popped < FACTS.length ? `${FACTS.length - popped} to go.` : "That's Jake. Yours is waiting.";
-    if (!reduce && navigator.vibrate) navigator.vibrate(12);
+    if (b.disabled) return;
+    b.disabled = true; b.classList.add("done"); popped++;
+    if (!reduce) { const burst = document.createElement("span"); burst.className = "burst";
+      burst.innerHTML = Array.from({ length: 10 }, (_, k) => { const a = k / 10 * 6.283; return `<i style="--x:${Math.cos(a) * 34}px;--y:${Math.sin(a) * 34}px"></i>`; }).join("");
+      b.appendChild(burst); setTimeout(() => burst.remove(), 800); }
+    const [k, v] = FACTS[popped - 1];
+    $("#fact").innerHTML = `<span class="k">${k}</span><span class="v">${v}</span>`;
+    $("#glass").style.setProperty("--clear", (popped / FACTS.length).toFixed(3));
+    $("#state").textContent = STATES[popped];
+    $("#hint").textContent = popped < FACTS.length ? `${FACTS.length - popped} to go.` : "That's Jake. Yours is waiting.";
   });
-  hearts.appendChild(b);
+  $("#hearts").appendChild(b);
 });
 
-// Sound for the ad (browsers only allow it after a tap).
-const ad = document.getElementById("ad"), sb = document.getElementById("sound");
+// The giant wordmark: letters come out of the tint.
+$("#giant").innerHTML = [..."Tinted"].map((c) => `<i aria-hidden="true">${c}</i>`).join("");
+const gl = [...document.querySelectorAll("#giant i")];
+
+// Scroll-driven scenes, one rAF per frame.
+const bar = $("#bar"), hero = $("#hero"), bgv = $("#bg"), clock = $("#clock"), clip = $("#clip");
+const fieldT = $("#fieldTrack"), stageT = $("#stageTrack"), steps = [...document.querySelectorAll("#steps li")], shots = [...document.querySelectorAll("#scr img")];
+const prog = (el) => { const r = el.getBoundingClientRect(); return clamp(-r.top / Math.max(1, r.height - innerHeight)); };
+let ticking = false, lastStep = 0;
+function frame() {
+  ticking = false;
+  const y = scrollY, vh = innerHeight;
+  bar.classList.toggle("solid", y > 30);
+  if (reduce) return;
+  // Hero: the duel drifts closer and the veil deepens as you leave.
+  const hp = clamp(y / (hero.offsetHeight * .9));
+  hero.style.setProperty("--veil", (.76 + hp * .16).toFixed(3));
+  bgv.style.setProperty("--z", (1.04 + hp * .12).toFixed(3));
+  bgv.style.setProperty("--b", (1.2 + hp * 6).toFixed(1) + "px");
+  bgv.style.setProperty("--sh", (y * .18).toFixed(1) + "px");
+  // Focus statement: each word sharpens as the line passes the middle of the screen.
+  fws.forEach((w) => { const r = w.getBoundingClientRect(); const t = clamp((vh * .78 - r.top) / (vh * .35));
+    w.style.filter = `blur(${((1 - t) * 10).toFixed(1)}px)`; w.style.opacity = (.18 + t * .82).toFixed(2); });
+  // Countdown: ninety seconds run out as you scroll through the duel.
+  if (fieldT.offsetHeight > vh * 1.2) { const p = prog(fieldT); clock.textContent = String(Math.round(90 - p * 90)).padStart(2, "0");
+    clip.style.setProperty("--r", ((p - .5) * -6).toFixed(2) + "deg"); }
+  // Stages: the phone stays, the screens change.
+  if (stageT.offsetHeight > vh * 1.2) { const s = Math.min(2, Math.floor(prog(stageT) * 3));
+    if (s !== lastStep) { lastStep = s; steps.forEach((li, i) => li.classList.toggle("on", i === s)); shots.forEach((im, i) => im.classList.toggle("on", i === s)); } }
+  // Giant wordmark clears letter by letter.
+  const gr = $("#giant").getBoundingClientRect(); const atEnd = clamp(1 - (document.documentElement.scrollHeight - vh - y) / 120);
+  const gt = Math.max(clamp((vh - gr.top) / (vh * .7)), atEnd);
+  gl.forEach((l, i) => l.style.setProperty("--t", clamp(1 - (gt * 1.6 - i * .12)).toFixed(3)));
+}
+const req = () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } };
+addEventListener("scroll", req, { passive: true }); addEventListener("resize", req); frame();
+
+// Bubbles that cascade as you scroll, and one big heart bubble that travels the page.
+(function () {
+  if (reduce) return;
+  const cv = document.getElementById("fizz"), cx = cv.getContext("2d");
+  const DPR = Math.min(2, devicePixelRatio || 1);
+  let W = 0, H = 0;
+  const size = () => { W = innerWidth; H = innerHeight; cv.width = W * DPR; cv.height = H * DPR; cx.setTransform(DPR, 0, 0, DPR, 0, 0); };
+  size(); addEventListener("resize", size);
+  // The game's own orb colours, pre-rendered once as glossy sprites.
+  const COLS = [["#ff74b9", "#c2187a"], ["#7fb2ff", "#2f55c9"], ["#b48cff", "#6a33d6"], ["#ffd36e", "#d98b0c"], ["#6fe0b0", "#1b9a6c"]];
+  const sprite = (c1, c2, heart) => {
+    const R = 64, o = document.createElement("canvas"); o.width = o.height = R * 2 + 8; const g = o.getContext("2d"); const m = R + 4;
+    const fill = g.createRadialGradient(m - R * .35, m - R * .4, R * .1, m, m, R);
+    fill.addColorStop(0, "#fff"); fill.addColorStop(.22, c1); fill.addColorStop(1, c2);
+    g.fillStyle = fill; g.beginPath(); g.arc(m, m, R, 0, 7); g.fill();
+    g.globalAlpha = .55; g.fillStyle = "#fff"; g.beginPath(); g.ellipse(m - R * .32, m - R * .42, R * .3, R * .17, -.6, 0, 7); g.fill(); g.globalAlpha = 1;
+    if (heart) { g.save(); g.translate(m, m + R * .04); g.scale(R / 30, R / 30); g.fillStyle = "#fff";
+      g.fill(new Path2D("M0 13s-10-6.2-12.8-12.1C-14.8-3.5-12.1-8.3-7.5-8.3c2.8 0 4.7 1.6 5.7 3.2h3.6C2.8-6.7 4.7-8.3 7.5-8.3c4.6 0 7.3 4.8 5.3 9.2C10 6.8 0 13 0 13z")); g.restore(); }
+    return o;
+  };
+  const SPR = COLS.map(([a, b]) => sprite(a, b, false)), HEARTS = COLS.map(([a, b]) => sprite(a, b, true));
+  const BIG = sprite("#ff74b9", "#c2187a", true);
+  const orbs = [], pops = [];
+  const MAX = W < 700 ? 26 : 48;
+  let lastY = scrollY, vel = 0, budget = 6;
+  const spawn = (n) => { for (let i = 0; i < n && orbs.length < MAX; i++) {
+    const r = (W < 700 ? 8 : 10) + Math.random() ** 2 * (W < 700 ? 20 : 30);
+    orbs.push({ x: Math.random() * W, y: -r - Math.random() * 120, r, vx: (Math.random() - .5) * .6, vy: 1 + Math.random() * 2,
+      s: (Math.random() < .14 ? HEARTS : SPR)[Math.floor(Math.random() * 5)], w: Math.random() * 6.28, life: 0 }); } };
+  const pop = (o) => { for (let k = 0; k < 8; k++) { const a = k / 8 * 6.283; pops.push({ x: o.x, y: o.y, vx: Math.cos(a) * 2.4, vy: Math.sin(a) * 2.4, t: 0, c: o.r }); } };
+  // The travelling bubble: a path through the page, keyed to scroll progress.
+  const giant = document.getElementById("giant");
+  let bigPopped = false;
+  function bigPos(p) {
+    const pts = [[.78, .30, 1], [.15, .55, .7], [.86, .45, .85], [.12, .4, .6], [.8, .5, .75], [.5, .62, 1.1]];
+    const f = p * (pts.length - 1), i = Math.min(pts.length - 2, Math.floor(f)), t = f - i, e = t * t * (3 - 2 * t);
+    const a = pts[i], b = pts[i + 1]; return [a[0] + (b[0] - a[0]) * e, a[1] + (b[1] - a[1]) * e, a[2] + (b[2] - a[2]) * e];
+  }
+  let rot = 0;
+  function tick() {
+    const y = scrollY, dy = y - lastY; lastY = y;
+    vel += (dy - vel) * .25;
+    if (dy > 0) budget += dy / 38;               // scrolling down pours more bubbles in
+    const n = Math.floor(budget); if (n) { spawn(n); budget -= n; }
+    cx.clearRect(0, 0, W, H);
+    for (let i = orbs.length - 1; i >= 0; i--) {
+      const o = orbs[i]; o.life++;
+      o.vy += .06 + o.r * .0012;                 // bigger orbs fall a little faster
+      o.vy -= vel * .015;                        // the page's motion tugs them
+      o.vy = Math.max(-6, Math.min(9, o.vy)); o.w += .04;
+      o.x += o.vx + Math.sin(o.w) * .35; o.y += o.vy;
+      if (o.y > H + o.r * 2 || o.y < -400) { orbs.splice(i, 1); continue; }
+      if (o.y > H * .9 && Math.random() < .03) { pop(o); orbs.splice(i, 1); continue; }
+      const d = o.r * 2; cx.globalAlpha = Math.min(1, o.life / 14) * .92; cx.drawImage(o.s, o.x - o.r, o.y - o.r, d, d);
+    }
+    cx.globalAlpha = 1;
+    for (let i = pops.length - 1; i >= 0; i--) { const q = pops[i]; q.t++; q.x += q.vx; q.y += q.vy; q.vx *= .93; q.vy *= .93;
+      if (q.t > 26) { pops.splice(i, 1); continue; }
+      cx.globalAlpha = 1 - q.t / 26; cx.fillStyle = "#ff8cc8"; cx.beginPath(); cx.arc(q.x, q.y, 2.6, 0, 7); cx.fill(); }
+    // Big heart bubble rides the scroll and pops into the wordmark.
+    const max = document.documentElement.scrollHeight - H, p = Math.max(0, Math.min(1, y / Math.max(1, max)));
+    const gr = giant.getBoundingClientRect(), landed = gr.top < H * .55;
+    if (landed && !bigPopped) { bigPopped = true; const [bx, by, bs] = bigPos(p); const R = Math.min(W, H) * .085 * bs;
+      for (let k = 0; k < 22; k++) { const a = k / 22 * 6.283; pops.push({ x: bx * W, y: by * H, vx: Math.cos(a) * (3 + Math.random() * 3), vy: Math.sin(a) * (3 + Math.random() * 3), t: 0 }); }
+      spawn(8); }
+    if (!landed) bigPopped = false;
+    if (!bigPopped) { const [bx, by, bs] = bigPos(p); const R = Math.min(W, H) * .085 * bs; rot += vel * .004 + .002;
+      cx.save(); cx.translate(bx * W, by * H + Math.sin(performance.now() / 700) * 6); cx.rotate(Math.sin(rot) * .25);
+      cx.globalAlpha = .96; cx.drawImage(BIG, -R, -R, R * 2, R * 2); cx.restore(); cx.globalAlpha = 1; }
+    requestAnimationFrame(tick);
+  }
+  spawn(10); requestAnimationFrame(tick);
+})();
+
+// Sound for the ad.
+const ad = $("#ad"), sb = $("#sound");
 sb.addEventListener("click", () => {
   ad.muted = !ad.muted; if (!ad.muted) { ad.currentTime = 0; ad.play(); }
-  document.getElementById("snd-off").hidden = !ad.muted; document.getElementById("snd-on").hidden = ad.muted;
-  document.getElementById("snd-t").textContent = ad.muted ? "Sound on" : "Sound off";
-  sb.setAttribute("aria-pressed", String(!ad.muted));
+  $("#snd-off").hidden = !ad.muted; $("#snd-on").hidden = ad.muted;
+  $("#snd-t").textContent = ad.muted ? "Sound on" : "Sound off"; sb.setAttribute("aria-pressed", String(!ad.muted));
 });
 </script>
 </body>
