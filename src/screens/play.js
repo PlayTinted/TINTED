@@ -26,8 +26,10 @@ export async function playScreen(app, params = {}, nav) {
         <div class="stack-lg" style="align-items:flex-start">
           <div class="orb" aria-hidden="true"></div>
           <h1>Looking for your match</h1>
-          <p class="lede">We'll pair you with the next person who fits. You can close the app; we'll send a notification.</p>
+          <p class="lede">You're one of the first people on Tinted. We're in pre-launch testing, so it may take a while for someone who fits to join. You're in the queue and will be paired as soon as they do, so check back soon.</p>
+          <a class="btn wide" href="${location.hostname === "localhost" ? "https://playtinted.com/play" : "/play"}">Try a practice duel while you wait</a>
           <button class="btn line" id="stop">Stop looking</button>
+          <p class="small muted">The practice duel uses Mara and Jake, our AI demo profiles.</p>
         </div>`
       : `
         <div class="stack-lg">
@@ -35,6 +37,7 @@ export async function playScreen(app, params = {}, nav) {
             <div class="hero-caption"><span class="clarity"><i><b style="width:35%"></b></i>Clearing</span></div></div>
           <p class="tagline">${TAGLINE}</p>
           <p class="lede">Get paired blind. You see a first name, one line and a tinted photo. Play them, and the glass clears.</p>
+          <div class="early" role="note"><b>Pre-launch test · you're early</b><span>Tinted has only just opened, so there aren't many people on it yet and finding a match can take a while. Thanks for being one of the first to try it.</span></div>
           <button class="btn wide" id="find" ${full ? "disabled" : ""}>Find my match</button>
           ${full ? `<p class="small muted">You have ${plan.match_limit} matches on the go. Finish or pass on one to meet someone new.</p>` : ""}
           ${SUBSCRIPTIONS_ON && !plan.plus ? `<button class="upsell" id="plus"><span><b>Play three matches at once</b><span>Plus also puts you first in line when you look for a match.</span></span><span class="plus-badge">Plus</span></button>` : ""}

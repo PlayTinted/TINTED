@@ -43,6 +43,7 @@
   .pick button:active{transform:scale(.96)}
   .pick img{width:70px;height:70px;border-radius:18px;object-fit:cover;filter:blur(7px) saturate(.6) brightness(.85)}
   .pick small{font-weight:400;color:var(--mist);font-size:13px}
+  .pre{margin:0;padding:5px 12px;border-radius:999px;background:rgba(255,200,87,.14);color:#ffd27a;font-size:12.5px;font-weight:600}
   .fine{font-size:12.5px;color:var(--mist);max-width:30em;margin:0}
   .end-photo{width:120px;height:120px;border-radius:26px;object-fit:cover;box-shadow:0 14px 30px -12px rgba(0,0,0,.6)}
   .cta{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 26px;border-radius:999px;background:var(--rose,#ff4fa3);color:#2b0a1c;font:600 17px var(--display);text-decoration:none}
@@ -72,6 +73,7 @@
   <div class="board" id="board">
     <canvas id="cv" aria-label="Glass orbs. Drag to aim, let go to shoot, tap your orb to swap."></canvas>
     <div class="overlay" id="ov">
+      <p class="pre">Pre-launch demo</p>
       <h2>Try a duel</h2>
       <p class="muted" style="margin:0">No sign-up. Who would you like to play?</p>
       <div class="pick">
@@ -220,7 +222,7 @@ function end() {
     <p class="muted" style="margin:0">${won ? (m < 300 ? `By ${m}. Close one.` : `By ${m}.`) : (m < 300 ? `Just ${m} in it. So close.` : `By ${m}.`)} That's ${P.name} revealed.</p>
     <a class="cta" href="/app/">Now play a real person</a>
     <button class="ghost" id="again">Play again</button>
-    <p class="fine">Free while we launch · 18+</p>`;
+    <p class="fine">Tinted is in pre-launch testing, so you'll be one of the first people on it and matches may take a while at first. Free while we launch · 18+</p>`;
   $("#again").onclick = () => start();
 }
 
