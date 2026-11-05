@@ -28,6 +28,8 @@ export async function playScreen(app, params = {}, nav) {
           <h1>Looking for your match</h1>
           <p class="lede">You're one of the first people on Tinted. We're in pre-launch testing, so it may take a while for someone who fits to join. You're in the queue and will be paired as soon as they do, so check back soon.</p>
           <a class="btn wide" href="${location.hostname === "localhost" ? "https://playtinted.com/play" : "/play"}">Try a practice duel while you wait</a>
+          <button class="btn line" id="invite">Invite a single friend</button>
+          <p class="small muted">Every friend who joins near you means more people to match with, for both of you.</p>
           <button class="btn line" id="stop">Stop looking</button>
           <p class="small muted">The practice duel uses Mara and Jake, our AI demo profiles.</p>
         </div>`
@@ -61,6 +63,14 @@ export async function playScreen(app, params = {}, nav) {
       if (src) el.innerHTML = `<img src="${esc(src)}" alt="">`;
     });
     $("#turns", app)?.addEventListener("click", (e) => { const b = e.target.closest("[data-m]"); if (b) nav.go("match", { match_id: b.dataset.m }); });
+    $("#invite", app)?.addEventListener("click", async () => {
+      const text = "I'm on Tinted, a dating app where you play a 90-second bubble duel before you see who you matched with. It's brand new, so come and try it 🫧";
+      const url = "https://playtinted.com/play";
+      try {
+        if (navigator.share) await navigator.share({ text, url });
+        else { await navigator.clipboard.writeText(`${text} ${url}`); toast("Link copied. Send it to a friend"); }
+      } catch (e) { if (e?.name !== "AbortError") toast("Couldn't share, try again"); }
+    });
     $("#stop", app)?.addEventListener("click", async () => { await rpc("leave_queue").catch(() => {}); queued = false; render(); });
     $("#find", app)?.addEventListener("click", find);
     $("#howto", app)?.addEventListener("click", () => nav.go("practice", {}));

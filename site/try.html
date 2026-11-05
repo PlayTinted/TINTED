@@ -44,8 +44,15 @@
   .pick img{width:70px;height:70px;border-radius:18px;object-fit:cover;filter:blur(7px) saturate(.6) brightness(.85)}
   .pick small{font-weight:400;color:var(--mist);font-size:13px}
   .pre{margin:0;padding:5px 12px;border-radius:999px;background:rgba(255,200,87,.14);color:#ffd27a;font-size:12.5px;font-weight:600}
+  .beat{margin:0;padding:10px 14px;border-radius:16px;background:rgba(255,79,163,.14);font-size:15px}
+  .beat b{color:#ffb3d6}
+  .row-hearts{margin:0;font-size:19px;letter-spacing:2px}
+  #ov.done{gap:9px;padding:18px}
+  #ov.done h2{font-size:28px}
+  .cta.alt{background:var(--ivory,#fff2f8)}
+  #toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);padding:12px 18px;border-radius:999px;background:#fff2f8;color:#160b26;font-weight:600;z-index:50}
   .fine{font-size:12.5px;color:var(--mist);max-width:30em;margin:0}
-  .end-photo{width:120px;height:120px;border-radius:26px;object-fit:cover;box-shadow:0 14px 30px -12px rgba(0,0,0,.6)}
+  .end-photo{width:76px;height:76px;border-radius:20px;object-fit:cover;box-shadow:0 14px 30px -12px rgba(0,0,0,.6)}
   .cta{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 26px;border-radius:999px;background:var(--rose,#ff4fa3);color:#2b0a1c;font:600 17px var(--display);text-decoration:none}
   .ghost{background:none;border:0;color:var(--mist);font:600 15px var(--display);text-decoration:underline;cursor:pointer}
 </style>
@@ -73,7 +80,7 @@
   <div class="board" id="board">
     <canvas id="cv" aria-label="Glass orbs. Drag to aim, let go to shoot, tap your orb to swap."></canvas>
     <div class="overlay" id="ov">
-      <p class="pre">Pre-launch demo</p>
+      <p class="pre" id="pre">Pre-launch demo</p>
       <h2>Try a duel</h2>
       <p class="muted" style="margin:0">No sign-up. Who would you like to play?</p>
       <div class="pick">
@@ -107,6 +114,12 @@ const CLARITY = ["Tinted", "Clearing", "Almost clear", "Clear"];
 const BLUR = ["blur(14px) saturate(.6) brightness(.8)", "blur(8px) saturate(.8)", "blur(3.5px) saturate(.95)", "none"];
 const ROUND = 60000;
 const track = (n) => { try { globalThis.tintedTrack?.(n); } catch (e) {} };
+// Today's board: everyone who plays today gets the same board (same seed), so scores are comparable.
+const DAY = Math.max(1, Math.floor((Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth(), new Date().getUTCDate()) - Date.UTC(2026, 10, 5)) / 864e5) + 1);
+const SEED = (Math.imul(DAY, 2654435761) ^ 0x7f4a7c15) >>> 0;
+const qs = new URLSearchParams(location.search);
+const BEAT = Math.max(0, Math.min(99999, parseInt(qs.get("beat") || "0", 10) || 0));
+let freed = 0;
 
 let P = null, game, board, phase = "pick", startAt = 0, hearts = 0, opp = 0, oppTarget = 0, nextOppAt = 0, leading = null, finalCalled = false;
 
@@ -124,8 +137,8 @@ function renderClarity() {
 
 function newGame() {
   board?.destroy();
-  game = createGame((Math.random() * 2 ** 31) >>> 0);
-  hearts = 0; opp = 0; leading = null; finalCalled = false;
+  game = createGame(SEED);
+  hearts = 0; freed = 0; opp = 0; leading = null; finalCalled = false;
   oppTarget = 1900 + Math.floor(Math.random() * 700);
   renderFacts(); renderClarity(); hud();
   board = createBoard($("#cv"), game, {
@@ -134,7 +147,7 @@ function newGame() {
     onShot: (res) => {
       if (res.heartsFound > 1) board.text(`${res.heartsFound} hearts freed`, { size: 1.1, col: "#ffc2d3" });
       for (let i = 0; i < res.heartsFound; i++) {
-        hearts++;
+        hearts++; freed++;
         const f = P.facts[hearts - 1];
         if (f && res.heartsFound === 1) board.text(`Heart freed · ${f[0]}`, { size: 1.05, col: "#ffc2d3" });
         renderFacts(); renderClarity();
@@ -191,7 +204,7 @@ function choose(key) {
 function start() {
   unlockAudio();
   newGame();
-  phase = "count";
+  phase = "count"; $("#ov").classList.remove("done");
   let n = 3;
   $("#ov").hidden = false;
   $("#ov").innerHTML = `<div class="count" id="count">3</div><p class="muted">Free the hearts to clear ${P.name}'s photo</p><p class="tiny muted">Drag to aim · let go to shoot · tap your orb to swap</p>`;
@@ -214,18 +227,38 @@ function end() {
   const you = game.score, m = Math.abs(you - opp), won = you > opp;
   // The demo reveals them in full at the end, so you see what the duel unlocks.
   hearts = Math.max(hearts, 6); renderFacts(); renderClarity();
-  $("#ov").hidden = false;
+  $("#ov").hidden = false; $("#ov").classList.add("done");
   $("#ov").innerHTML = `
     <img class="end-photo" src="${P.photo}" alt="${P.name}, revealed">
     <h2>${game.over ? "The ceiling caught you" : won ? "You won!" : you === opp ? "Dead heat" : `${P.name} won`}</h2>
     <p class="display num" style="font-size:36px;line-height:1;margin:0">${you.toLocaleString("en-GB")} <span class="muted">–</span> ${opp.toLocaleString("en-GB")}</p>
     <p class="muted" style="margin:0">${won ? (m < 300 ? `By ${m}. Close one.` : `By ${m}.`) : (m < 300 ? `Just ${m} in it. So close.` : `By ${m}.`)} That's ${P.name} revealed.</p>
-    <a class="cta" href="/app/">Now play a real person</a>
+    ${BEAT ? `<p class="beat" style="margin:0">${you > BEAT ? `You beat your friend's ${BEAT.toLocaleString("en-GB")} 🎉` : `Your friend's ${BEAT.toLocaleString("en-GB")} still stands`}</p>` : ""}
+    <p class="row-hearts" aria-label="${freed} of 6 hearts freed">${"❤️".repeat(Math.min(6, freed))}${"🤍".repeat(Math.max(0, 6 - freed))}</p>
+    <button class="cta share" id="share" type="button">Challenge a friend</button>
+    <a class="cta alt" href="/app/">Now play a real person</a>
     <button class="ghost" id="again">Play again</button>
     <p class="fine">Tinted is in pre-launch testing, so you'll be one of the first people on it and matches may take a while at first. Free while we launch · 18+</p>`;
   $("#again").onclick = () => start();
+  $("#share").onclick = () => share(you, won);
 }
 
+async function share(you, won) {
+  const row = "❤️".repeat(Math.min(6, freed)) + "🤍".repeat(Math.max(0, 6 - freed));
+  const vsFriend = BEAT ? (you > BEAT ? `Beat my friend's ${BEAT.toLocaleString("en-GB")} ✅` : `Couldn't beat ${BEAT.toLocaleString("en-GB")} 😤`) : (won ? `Beat ${P.name} 💪` : `Lost to ${P.name} 💀`);
+  const url = `https://playtinted.com/play?beat=${you}`;
+  const text = `Tinted · Board #${DAY} 🫧\n${row} ${you.toLocaleString("en-GB")}\n${vsFriend}\nCan you beat me?`;
+  track("Share");
+  try {
+    if (navigator.share) { await navigator.share({ text, url }); return; }
+    await navigator.clipboard.writeText(`${text}\n${url}`);
+    toast("Copied. Paste it to a friend");
+  } catch (e) { if (e?.name !== "AbortError") toast("Couldn't share, try again"); }
+}
+function toast(msg) { const t = $("#toast"); t.textContent = msg; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => (t.hidden = true), 2400); }
+
+$("#pre").textContent = `Pre-launch demo · Today's board #${DAY}`;
+if (BEAT) $("#ov .muted").outerHTML = `<p class="beat">A friend scored <b>${BEAT.toLocaleString("en-GB")}</b> on today's board. Can you beat them?</p><p class="muted" style="margin:0">No sign-up. Who would you like to play?</p>`;
 $("#ov").addEventListener("click", (e) => { const b = e.target.closest("[data-who]"); if (b) choose(b.dataset.who); });
 $("#snd").textContent = isMuted() ? "Sound off" : "Sound on";
 $("#snd").onclick = (e) => { unlockAudio(); setMuted(!isMuted()); e.target.textContent = isMuted() ? "Sound off" : "Sound on"; };
