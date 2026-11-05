@@ -16,6 +16,7 @@ shutil.rmtree(OUT, ignore_errors=True)
 APP = OUT / "app"   # the web app lives at /app/; the front page is at /
 shutil.copytree(ROOT / "src", APP / "src", ignore=shutil.ignore_patterns("index.html", "fonts.css"))
 shutil.copytree(ROOT / "shared", APP / "shared")
+shutil.copy(ROOT / "site" / "try.html", APP / "try.html")  # no-sign-up demo duel, served at /play
 shutil.copytree(ROOT / "src" / "brand" / "icons", OUT / "src" / "brand" / "icons")  # also at the root, for emails and icons
 for f in ["privacy.html", "terms.html", "delete-account.html", "site.css"]:
     shutil.copy(ROOT / "site" / f, OUT / f)
@@ -91,11 +92,11 @@ csp = ("default-src 'self'; "
 (OUT / "_redirects").write_text(
     "https://playtinted.netlify.app/* https://playtinted.com/:splat 301!\n"
     "https://www.playtinted.com/* https://playtinted.com/:splat 301!\n"
-    "/play /app/ 301\n"
+    "/play /app/try.html 200\n"
     "/about.html / 301\n")
 (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n")
 (OUT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-    + "".join(f"  <url><loc>{SITE}/{p}</loc></url>\n" for p in ["", "app/", "privacy.html", "terms.html"]) + "</urlset>\n")
+    + "".join(f"  <url><loc>{SITE}/{p}</loc></url>\n" for p in ["", "play", "app/", "privacy.html", "terms.html"]) + "</urlset>\n")
 (OUT / "_headers").write_text("/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n/app/src/brand/*\n  Cache-Control: public, max-age=604800\n/assets/*\n  Cache-Control: public, max-age=604800\n")
 # Fill in who runs Tinted and how to reach them (the legal pages ship with placeholders).
 COMPANY, SUPPORT = "Tinted", "hello@playtinted.com"
